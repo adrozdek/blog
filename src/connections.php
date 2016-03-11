@@ -19,3 +19,5 @@ User::SetConnection($connection);
 Post::SetConnection($connection);
 Comment::SetConnection($connection);
 Message::SetConnection($connection);
+
+
