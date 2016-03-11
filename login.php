@@ -3,7 +3,7 @@
 require_once("./src/connections.php");
 
 if (isset($_SESSION['userId'])) {
-    header("Location: showUser.php");
+    header("Location: blog.php");
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -11,13 +11,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($user != false) {
         $_SESSION['userId'] = $user->getId();
-        header("Location: showUser.php");
+        header("Location: blog.php");
     } else {
         echo("Wrong email or password.");
     }
 }
 
-require_once("./src/nav.php");
+require_once("src/nav.php");
 ?>
 
 <div class="container">

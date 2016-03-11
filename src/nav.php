@@ -1,27 +1,34 @@
 <?php
 ?>
 
-<html>
-<head>
+    <html>
+    <head>
 
-    <link rel='stylesheet' type='text/css' href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
-    <link rel='stylesheet' type='text/css' href='styles/css/mystyles.css'>
+        <link rel='stylesheet' type='text/css' href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
+        <link rel='stylesheet' type='text/css' href='styles/css/mystyles.css'>
 
-</head>
+    </head>
 
 <?php
-$userToUse = $_SESSION['userId'];
 
-if(isset($_SESSION['userId'])): ?>
+if (isset($_SESSION['userId'])): ?>
 
     <ul class="nav nav-tabs">
 
-        <li><a id="main" href=#>Profile</a></li>
-        <li><a id="messages" href=#>Messages</a></li>
-        <li><a id="users" href=#>Bloggers</a></li>
-        <li><a id="tweets" href=#>Your blog</a></li>
-        <li><a id="logout" href='../blog/logout.php'>Wyloguj</a></li>
+        <li><a id="main" href='../blog/profile.php'>Profile</a></li>
+        <li><a id="messages" href='../blog/messages.php'>Messages</a></li>
+        <li><a id="users" href='../blog/bloggers.php'>Bloggers</a></li>
+        <li><a id="tweets" href='../blog/blog.php'>Your blog</a></li>
+        <li><a id="logout" href='../blog/logout.php'>Logout</a></li>
     </ul>
+
+    <?php else: ?>
+
+    <ul class="nav nav-tabs">
+        <li><a id="users" href='../blog/bloggers.php'>Bloggers</a></li>
+        <li><a id="logout" href='../blog/login.php'>Login</a></li>
+    </ul>
+
 
 
 
