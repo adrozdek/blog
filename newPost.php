@@ -1,6 +1,5 @@
 <?php
 
-
 require_once("src/connections.php");
 require_once("src/nav.php");
 
@@ -9,13 +8,16 @@ if (isset($_SESSION['userId']) != true) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $post = trim($_POST['postText']);
-    if (Post::CreatePost($post)) {
-        echo("Post created");
+    $post = $_POST['postText'];
+    if (Security::SanitizeString($post) && Security::IsValid($post)) {
+        if (Post::CreatePost($post)) {
+            echo("Post created");
+        } else {
+            echo("Couldn't create post");
+        }
     } else {
-        echo("Couldn't create post");
+        echo("Post is not valid. Please try again.");
     }
-
 }
 
 echo("

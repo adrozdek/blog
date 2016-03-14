@@ -9,4 +9,6 @@ class Comment
     {
         Comment::$connection = $connection;
     }
+
+
 }

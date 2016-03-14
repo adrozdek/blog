@@ -1,5 +1,7 @@
 <?php
 
+require_once ('Security.php');
+
 class Post
 {
     static private $connection = null;
@@ -19,6 +21,7 @@ class Post
         $statement->bind_param('iss', intval($userId), $postText, $postDate);
 
         if ($statement->execute()) {
+            $statement->close();
             return true;
         }
         return false;
@@ -35,6 +38,7 @@ class Post
             $row = $result->fetch_assoc();
             //var_dump($row);
             $post = new Post($row['id'], $row['user_id'], $row['post_text'], $row['post_date']);
+            $statement->close();
             return $post;
 
         }

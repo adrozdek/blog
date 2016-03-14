@@ -6,14 +6,21 @@ if (isset($_SESSION['userId'])) {
     header("Location: blog.php");
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $user = User::LogInUser(trim($_POST['email']), trim($_POST['password']));
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $email = Security::IsValid(Security::SanitizeString($_POST['email']));
+    $password = Security::IsValid(Security::SanitizeString($_POST['password']));
 
-    if ($user != false) {
-        $_SESSION['userId'] = $user->getId();
-        header("Location: blog.php");
+    if ($email && $password) {
+        $user = User::LogInUser($email, $password);
+
+        if ($user != false) {
+            $_SESSION['userId'] = $user->getId();
+            header("Location: blog.php");
+        } else {
+            echo("Wrong email or password.");
+        }
     } else {
-        echo("Wrong email or password.");
+        echo('Email or password are invalid');
     }
 }
 

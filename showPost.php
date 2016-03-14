@@ -7,9 +7,14 @@ if (isset($_SESSION['userId']) != true) {
     header("Location: login.php");
 }
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+}
+
 echo("<div class='container'>");
 
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+
     $id = $_GET['id'];
 
     $postToShow = Post::LoadPostById($id);
@@ -30,6 +35,8 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
         </form>
     ");
 
+} else {
+    echo('Post doesn\'t exist');
 }
 echo("</div>");
 

@@ -1,5 +1,7 @@
 <?php
 
+require_once('Security.php');
+
 class User
 {
     static private $connection = null;
@@ -21,11 +23,13 @@ class User
         ];
         $hashedPassword = password_hash($password1, PASSWORD_BCRYPT, $options);
 
-        $sql = "INSERT INTO Users(name, email, password, description) VALUES ('$name', '$email', '$hashedPassword', '$description')";
+        $stmt = self::$connection->prepare('INSERT INTO Users(name, email, password, description) VALUES (?,?,?,?)');
 
-        $result = self::$connection->query($sql);
-        if ($result === TRUE) {
+        $stmt->bind_param('ssss', $name, $email, $hashedPassword, $description);
+
+        if ($stmt->execute()) {
             $newUser = new User(self::$connection->insert_id, $name, $email, $description);
+            $stmt->close();
             return $newUser;
         }
         return false;
@@ -33,18 +37,22 @@ class User
 
     static public function LogInUser($email, $password)
     {
-        $sql = "SELECT * FROM Users WHERE email LIKE '$email'";
-        $result = self::$connection->query($sql);
+        $stmt = self::$connection->prepare('SELECT * FROM Users WHERE email LIKE ?');
+        $stmt->bind_param('s', $email);
 
-        if ($result != false) {
+        if ($stmt->execute() != false) {
+            $result = $stmt->get_result();
+
             if ($result->num_rows == 1) {
                 $row = $result->fetch_assoc();
                 $isPasswordOK = password_verify($password, $row['password']);
 
                 if ($isPasswordOK == true) {
                     $user = new User($row['id'], $row['name'], $row['email'], $row['description']);
+                    $stmt->close();
                     return $user;
                 }
+                $stmt->close();
             }
         }
         return false;
@@ -52,13 +60,17 @@ class User
 
     static public function GetUserById($id)
     {
-        $sql = "SELECT * FROM Users WHERE id = $id";
-        $result = self::$connection->query($sql);
+        $stmt = self::$connection->prepare('SELECT * FROM Users WHERE id = ?');
+        $stmt->bind_param('i', $id);
 
-        if ($result != false && $result->num_rows == 1) {
-            $row = $result->fetch_assoc();
-            $user = new User($row['id'], $row['name'], $row['email'], $row['description']);
-            return $user;
+        if ($stmt->execute() != false) {
+            $result = $stmt->get_result();
+            if ($result->num_rows == 1) {
+                $row = $result->fetch_assoc();
+                $user = new User($row['id'], $row['name'], $row['email'], $row['description']);
+                $stmt->close();
+                return $user;
+            }
         }
         return false;
     }
@@ -136,7 +148,17 @@ class User
     public function loadAllUserPosts()
     {
         $sql = "SELECT * FROM Posts WHERE user_id = $this->id";
+        $result = self::$connection->query($sql);
 
+        if($result == true && $result->num_rows > 0) {
+            $posts = [];
+            while($row = $result->fetch_assoc()) {
+                $post = new Post($row['id'], $row['user_id'], $row['post_text'], $row['post_date']);
+                $posts[] = $post;
+            }
+            return $posts;
+        }
+        return false;
 
     }
 
@@ -149,8 +171,6 @@ class User
     {
 
     }
-
-
 
 
 }
