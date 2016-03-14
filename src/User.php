@@ -77,18 +77,18 @@ class User
 
     static public function GetAllUsers()
     {
-        $sql = "SELECT * FROM Users";
+        $users = [];
+        $sql = "SELECT * FROM Users ORDER BY name ASC";
         $result = self::$connection->query($sql);
 
         if ($result != false && $result->num_rows > 0) {
-            $users = [];
             while ($row = $result->fetch_assoc()) {
                 $user = new User($row['id'], $row['name'], $row['email'], $row['description']);
                 $users[] = $user;
             }
-            return $users;
+
         }
-        return false;
+        return $users;
     }
 
     private $id;
@@ -147,18 +147,18 @@ class User
 
     public function loadAllUserPosts()
     {
-        $sql = "SELECT * FROM Posts WHERE user_id = $this->id";
+        $posts = [];
+        $sql = "SELECT * FROM Posts WHERE user_id = $this->id ORDER BY post_date DESC";
         $result = self::$connection->query($sql);
 
         if($result == true && $result->num_rows > 0) {
-            $posts = [];
             while($row = $result->fetch_assoc()) {
                 $post = new Post($row['id'], $row['user_id'], $row['post_text'], $row['post_date']);
                 $posts[] = $post;
             }
-            return $posts;
+
         }
-        return false;
+        return $posts;
 
     }
 

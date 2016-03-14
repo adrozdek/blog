@@ -20,15 +20,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-echo("
+?>
 
 <div class='container'>
     <h3>New post:</h3>
-        <form action='newPost.php' method='post'>
-            <label>
-                <textarea name='postText' rows='30' cols='100'></textarea>
-            </label>
-            <input type='submit'>
-        </form>
+    <form action='newPost.php' method='post'>
+        <label>
+            <textarea name='postText' rows='30' cols='100'></textarea>
+        </label>
+        <input type='submit'>
+    </form>
 </div>
-    ");
+

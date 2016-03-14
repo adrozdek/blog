@@ -86,5 +86,33 @@ class Post
         return $this->postDate;
     }
 
+    public function getAllComments()
+    {
+        $comments = [];
+        $sql = "SELECT * FROM Comments WHERE post_id = $this->id ORDER BY comment_date DESC";
+        $result = self::$connection->query($sql);
+
+        if($result != false && $result->num_rows > 0) {
+
+            while ($row = $result->fetch_assoc()) {
+                $comment = new Comment($row['id'], $row['post_id'], $row['user_id'], $row['comment_text'], $row['comment_date']);
+                $comments[] = $comment;
+            }
+        }
+        return $comments;
+
+    }
+
+    public function removePost()
+    {
+        $sql = "DELETE FROM Posts WHERE id = $this->id";
+        $result = self::$connection->query($sql);
+
+        if($result == true) {
+            return true;
+        }
+        return false;
+    }
+
 
 }
