@@ -6,6 +6,9 @@ if (!isset($_SESSION['userId']) && !isset($_SESSION['adminId'])) {
     header("Location: login.php");
 }
 
+require_once("src/nav.php");
+
+
 if (isset($_GET['id']) && is_numeric($_GET['id'])):
     $id = $_GET['id'];
     $commentToEdit = Comment::LoadCommentById($id);
@@ -25,20 +28,11 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])):
             }
         }
 
-        echo("
-        <div class='container'>
-            <h3>Edit comment:</h3>
-            <form action='editComment.php?id=$id' method='post'>
-                <label>
-                    <input type='text' name='commentText' value='{$commentToEdit->getCommentText()}'>
-                </label>
-                <input type='submit'>
-            </form>
-        </div>
-            ");
+        $form_action = 'editComment.php?id=' . $id;
+        $headline = 'Edit comment:';
+        $commentText = $commentToEdit->getCommentText();
 
+        require_once './Template/comment_form.php';
     }
 
 endif;
-
-require_once("src/nav.php");

@@ -31,19 +31,16 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     echo($postToShow->getPostDate() . "<br />");
     if (isset($_SESSION['userId'])) {
         if ($postToShow->getUserId() == $_SESSION['userId'] || isset($_SESSION['adminId'])) {
+            echo("<a href='editPost.php?id=$id'>Edit</a><br>");
             echo("<a href='remove.php?idP=$id'>Remove</a><br>");
         }
     }
 
-    echo("<h3>Add comment: </h3>");
-    echo("
-        <form method='post'>
-            <label>
-                <input type='text' name='commentText' placeholder='write your comment'>
-            </label>
-            <input type='submit'>
-        </form>
-    ");
+    $headline = 'Add comment:';
+    $form_action = 'showPost.php?id='. $id;
+    require_once './Template/comment_form.php';
+
+
 
     echo("<h3>Comments: </h3>");
     $comments = $postToShow->getAllComments();

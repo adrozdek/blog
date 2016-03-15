@@ -34,34 +34,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 require_once("src/nav.php");
-?>
 
-<div class="container">
+$form_action = 'login.php';
+$register = 'register.php';
 
-    <h2>Login:</h2>
-    <form action="login.php" method="post">
-        <p>
-            <label>
-                Email:
-                <input type="email" name="email">
-            </label>
-        </p>
-        <p>
-            <label>
-                Password:
-                <input type="password" name="password">
-            </label>
-        </p>
-        <p>
-            <input type="submit" value="Log In">
-        </p>
-    </form>
+require_once './Template/login_form.php';
 
 
-    <p>
-        Don't have an account?
-        <a href='register.php' name='register'>Register now</a>
 
 
-    </p>
-</div>

@@ -22,6 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 $form_action = "newPost.php";
+$headline = 'New post: ';
+
 require_once ("./Template/post_form.php");
 
 ?>

@@ -27,23 +27,13 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])):
             }
         }
 
-        echo("
-    <div class='container'>
-        <h3>Edit post:</h3>
-        <form action='editPost.php?id=$id' method='post'>
-            <p>
-                <label>
-                Title:
-                    <input type='text' name='title' value='{$postToEdit->getTitle()}'>
-                </label>
-            </p>
-            <label>
-                <textarea name='postText' rows='30' cols='100'>{$postToEdit->getPostText()}</textarea>
-            </label>
-            <input type='submit'>
-        </form>
-    </div>
-    ");
+        $form_action = 'editPost.php?id=' . $id;
+        $title = $postToEdit->getTitle();
+        $postText = $postToEdit->getPostText();
+        $headline = 'Edit post:';
+
+        require_once ('./Template/post_form.php');
+
 
     }
 

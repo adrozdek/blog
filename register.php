@@ -23,45 +23,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
+$form_action = 'register.php';
+require_once './Template/registrationUser_form.php';
+
 ?>
 
-<h2>Registration</h2>
-<div class="center">
-    <form action="register.php" method="post">
-
-        <p>
-            <label>
-                Email:
-                <input type="email" name="email">
-            </label>
-        </p>
-        <p>
-            <label>
-                Name:
-                <input type="text" name="name">
-            </label>
-        </p>
-        <p>
-            <label>
-                Password:
-                <input type="password" name="password1">
-            </label>
-        </p>
-        <p>
-            <label>
-                Repeat password:
-                <input type="password" name="password2">
-            </label>
-        </p>
-        <p>
-            <label>
-                Description:
-                <input type="text" name="description">
-            </label>
-        </p>
-        <p>
-            <input type="submit" value="Register">
-        </p>
-    </form>
-
-</div>
