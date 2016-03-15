@@ -9,8 +9,9 @@ if (isset($_SESSION['userId']) != true) {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $post = $_POST['postText'];
-    if (Security::SanitizeString($post) && Security::IsValid($post)) {
-        if (Post::CreatePost($post)) {
+    $title = $_POST['title'];
+    if (Security::IsValid(Security::SanitizeString($post)) && Security::IsValid(Security::SanitizeString($title))) {
+        if (Post::CreatePost($title, $post)) {
             echo("Post created");
         } else {
             echo("Couldn't create post");
@@ -20,15 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
+$form_action = "newPost.php";
+require_once ("./Template/post_form.php");
+
 ?>
-
-<div class='container'>
-    <h3>New post:</h3>
-    <form action='newPost.php' method='post'>
-        <label>
-            <textarea name='postText' rows='30' cols='100'></textarea>
-        </label>
-        <input type='submit'>
-    </form>
-</div>
-
