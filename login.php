@@ -11,17 +11,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = Security::IsValid(Security::SanitizeString($_POST['password']));
 
     if ($email && $password) {
-        $user = User::LogInUser($email, $password);
+        if ($user = User::LogInUser($email, $password)) {
 
-        if ($user != false) {
-            $_SESSION['userId'] = $user->getId();
-            header("Location: blog.php");
+            if ($user != false) {
+                $_SESSION['userId'] = $user->getId();
+                header("Location: blog.php");
+            } else {
+                echo("Wrong email or password.");
+            }
+        } elseif ($admin = Admin::LogInAdmin($email, $password)) {
+            if($admin != false) {
+                $_SESSION['adminId'] = $admin->getId();
+                header('Location: bloggers.php');
+            } else {
+                echo("Wrong email or password");
+            }
         } else {
-            echo("Wrong email or password.");
+            echo('Email or password are invalid');
         }
-    } else {
-        echo('Email or password are invalid');
     }
+
 }
 
 require_once("src/nav.php");

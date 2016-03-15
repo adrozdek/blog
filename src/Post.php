@@ -1,6 +1,6 @@
 <?php
 
-require_once ('Security.php');
+require_once('Security.php');
 
 class Post
 {
@@ -11,14 +11,14 @@ class Post
         Post::$connection = $connection;
     }
 
-    static public function CreatePost($postText)
+    static public function CreatePost($title, $postText)
     {
         $userId = $_SESSION['userId'];
 
         $postDate = date('Y-m-d H:i:s', time());
 
-        $statement = self::$connection->prepare('INSERT INTO Posts(user_id, post_text, post_date) VALUES (?,?,?)');
-        $statement->bind_param('iss', intval($userId), $postText, $postDate);
+        $statement = self::$connection->prepare('INSERT INTO Posts(user_id, title, post_text, post_date) VALUES (?,?,?,?)');
+        $statement->bind_param('isss', intval($userId), $title, $postText, $postDate);
 
         if ($statement->execute()) {
             $statement->close();
@@ -36,8 +36,8 @@ class Post
             $result = $statement->get_result();
             //var_dump($result);
             $row = $result->fetch_assoc();
-            //var_dump($row);
-            $post = new Post($row['id'], $row['user_id'], $row['post_text'], $row['post_date']);
+            var_dump($row);
+            $post = new Post($row['id'], $row['user_id'], $row['title'], $row['post_text'], $row['post_date']);
             $statement->close();
             return $post;
 
@@ -45,15 +45,37 @@ class Post
         return false;
     }
 
+    static public function SearchPosts($searchText)
+    {
+        $search = '%' . $searchText . '%';
+        $stmt = self::$connection->prepare('SELECT * FROM Posts WHERE title LIKE ?');
+        $stmt->bind_param('s', $search);
+        $posts = [];
+
+        if ($stmt->execute()) {
+            $result = $stmt->get_result();
+
+            while ($row = $result->fetch_assoc()) {
+                var_dump($row);
+                $post = new Post($row['id'], $row['user_id'], $row['title'], $row['post_text'], $row['post_date']);
+                $posts[] = $post;
+            }
+            $stmt->close();
+        }
+        return $posts;
+    }
+
     private $id;
     private $userId;
+    private $title;
     private $postText;
     private $postDate;
 
-    public function __construct($id, $userId, $postText, $postDate)
+    public function __construct($id, $userId, $title, $postText, $postDate)
     {
         $this->id = intval($id);
         $this->userId = intval($userId);
+        $this->setTitle($title);
         $this->setPostText($postText);
         $this->postDate = $postDate;
     }
@@ -76,6 +98,16 @@ class Post
         return intval($this->userId);
     }
 
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
     public function getPostText()
     {
         return $this->postText;
@@ -92,7 +124,7 @@ class Post
         $sql = "SELECT * FROM Comments WHERE post_id = $this->id ORDER BY comment_date DESC";
         $result = self::$connection->query($sql);
 
-        if($result != false && $result->num_rows > 0) {
+        if ($result != false && $result->num_rows > 0) {
 
             while ($row = $result->fetch_assoc()) {
                 $comment = new Comment($row['id'], $row['post_id'], $row['user_id'], $row['comment_text'], $row['comment_date']);
@@ -108,11 +140,27 @@ class Post
         $sql = "DELETE FROM Posts WHERE id = $this->id";
         $result = self::$connection->query($sql);
 
-        if($result == true) {
+        if ($result == true) {
             return true;
         }
         return false;
     }
+
+    public function updatePost($title, $postText)
+    {
+        $stmt = self::$connection->prepare("UPDATE Posts SET post_text = ?, title = ? WHERE id = $this->id");
+        $stmt->bind_param('ss', $postText, $title);
+
+        if ($stmt->execute() != false) {
+            $this->setPostText($postText);
+            $this->setTitle($title);
+            $stmt->close();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
 
 }

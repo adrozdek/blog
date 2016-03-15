@@ -46,7 +46,7 @@ class Comment
 
     public function __construct($id, $postId, $userId, $commentText, $commentDate)
     {
-        $this->commentText = $commentText;
+        $this->setCommentText($commentText);
         $this->commentDate = $commentDate;
         $this->id = intval($id);
         $this->postId = $postId;
@@ -61,6 +61,11 @@ class Comment
     public function getCommentText()
     {
         return $this->commentText;
+    }
+
+    public function setCommentText($commentText)
+    {
+        $this->commentText = $commentText;
     }
 
     public function getId()
@@ -88,6 +93,21 @@ class Comment
         }
         return false;
     }
+
+    public function updateComment($commentText)
+    {
+        $stmt = self::$connection->prepare("UPDATE Comments SET comment_text = ? WHERE id = $this->id");
+        $stmt->bind_param('s', $commentText);
+
+        if ($stmt->execute() != false) {
+            $this->setCommentText($commentText);
+            $stmt->close();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
 
 }

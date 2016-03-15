@@ -28,9 +28,9 @@ class User
         $stmt->bind_param('ssss', $name, $email, $hashedPassword, $description);
 
         if ($stmt->execute()) {
-            $newUser = new User(self::$connection->insert_id, $name, $email, $description);
+            $user = new User(self::$connection->insert_id, $name, $email, $description);
             $stmt->close();
-            return $newUser;
+            return $user;
         }
         return false;
     }
@@ -153,7 +153,7 @@ class User
 
         if($result == true && $result->num_rows > 0) {
             while($row = $result->fetch_assoc()) {
-                $post = new Post($row['id'], $row['user_id'], $row['post_text'], $row['post_date']);
+                $post = new Post($row['id'], $row['user_id'], $row['title'], $row['post_text'], $row['post_date']);
                 $posts[] = $post;
             }
 
@@ -162,15 +162,6 @@ class User
 
     }
 
-    public function loadAllSentMessages()
-    {
-
-    }
-
-    public function loadAllReceivedMessages()
-    {
-
-    }
 
 
 }
