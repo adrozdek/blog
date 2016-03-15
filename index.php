@@ -28,6 +28,7 @@ $posts = $user->loadAllUserPosts();
 
 foreach($posts as $post) {
     $postId = $post->getId();
+    echo('<h3>' . $post->getTitle() .'</h3>');
     echo($post->getPostText() . '<br>');
     echo("<a href='showPost.php?id=$postId'>Show</a><br>");
     if($post->getUserId() == $_SESSION['userId'] || isset($_SESSION['adminId'])) {

@@ -3,7 +3,7 @@
 require_once("./src/connections.php");
 
 if (isset($_SESSION['userId'])) {
-    header("Location: blog.php");
+    header("Location: index.php");
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             if ($user != false) {
                 $_SESSION['userId'] = $user->getId();
-                header("Location: blog.php");
+                header("Location: index.php");
             } else {
                 echo("Wrong email or password.");
             }

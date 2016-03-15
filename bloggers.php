@@ -9,6 +9,6 @@ $users = User::GetAllUsers();
 foreach ($users as $user) {
     $userId = $user->getId();
     echo('<h2>' . ucfirst($user->getName()) . '</h2>');
-    echo("<a href='blog.php?id=$userId'>Show posts</a><br>");
+    echo("<a href='index.php?id=$userId'>Show posts</a><br>");
     echo("<a href='profile.php?id=$userId'>Show profile</a><br><hr>");
 }

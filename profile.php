@@ -28,7 +28,7 @@ if (isset($_GET['id'])) {
 echo("<h2>" . ucfirst($user->getName()) . "</h2>");
 echo("<h3> Number of posts: " . count($user->loadAllUserPosts()) . "</h3>");
 echo('Description: ' . $user->getDescription() . '<br>');
-echo("<a href='blog.php?id=$userId'>Show posts</a>");
+echo("<a href='index.php?id=$userId'>Show posts</a>");
 
 
 echo("</div>");
