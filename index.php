@@ -11,6 +11,7 @@ if (isset($_GET['id'])) {
     $user = User::GetUserById($userId);
 
 } elseif (isset($_SESSION['userId'])) {
+
     $user = User::GetUserById($_SESSION['userId']);
     $userId = $user->getId();
     echo("<a href='newPost.php'>Dodaj nowy wpis</a>");

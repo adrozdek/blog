@@ -19,12 +19,13 @@ class User
 
         $db = Database::getInstance();
         $params =  [$name, $email, $hashedPassword, $description];
-        $result = $db->queryParams('INSERT INTO Users(name, email, password, description) VALUES (?,?,?,?)', 'ssss', $params);
+        $result = $db->queryParams('INSERT INTO Users(name, email, password, description) VALUES (?,?,?,?)', $params);
 
         if ($result != false) {
             $user = new User(1, $name, $email, $description);
             return $user;
         }
+
         return false;
     }
 
@@ -54,9 +55,9 @@ class User
     static public function GetUserById($id)
     {
         $db = Database::getInstance();
-        $result = $db->queryParams('SELECT * FROM Users WHERE id = ?', $id, 'i');
+        $result = $db->queryParams('SELECT * FROM Users WHERE id = ?', [$id]);
 
-        if ($result->num_rows == 1) {
+        if ($result != false && $result->num_rows == 1) {
             $row = $result->fetch_assoc();
             $user = new User($row['id'], $row['name'], $row['email'], $row['description']);
 

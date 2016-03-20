@@ -50,25 +50,47 @@ class Database
         return $this->connection;
     }
 
-
-    public function queryParams($query, $types = null, $params = null)
+    private function refValues($arr)
     {
-        $connection = $this->getConnection();
-        $statement = $connection->prepare($query);
-        if ($params != null) {
-
-            $types = $types ?: str_repeat('s', count($params));
-            $statement->bind_param($types, ...$params);
+        if (strnatcmp(phpversion(), '5.3') >= 0) //Reference is required for PHP 5.3+
+        {
+            $refs = array();
+            foreach ($arr as $key => $value)
+                $refs[$key] = &$arr[$key];
+            return $refs;
         }
-
-        if(!$statement->execute()) {
-            return false;
-        } else {
-            $result = $statement->get_result();
-            $statement->close();
-            return $result ;
-        }
+        return $arr;
 
     }
 
+    public function queryParams($query, $params = null)
+    {
+        $connection = $this->getConnection();
+        $statement = $connection->prepare($query);
+
+        if ($params != null) {
+//            $types = $types ?: str_repeat('s', count($params));
+//            $statement->bind_param($types, ...$params);
+//        }
+            $params = array_merge(array(str_repeat('s', count($params))), $params);
+            //var_dump($params);
+
+            call_user_func_array(array(&$statement, 'bind_param'), $this->refValues($params));
+        }
+
+        if ($statement->execute()) {
+
+            $result = $statement->get_result();
+
+            if ($result == false) {
+                return true;
+            }
+            //var_dump($result);
+
+            $statement->close();
+            return $result;
+        }
+        return false;
+
+    }
 }
