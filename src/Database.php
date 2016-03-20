@@ -13,18 +13,6 @@ class Database
     private $password = 'coderslab';
     private $database = 'blog';
 
-    /*
-    Get an instance of the Database
-    @return Instance
-    */
-    public static function getInstance()
-    {
-        if (self::$instance == null) { // If no instance then make one
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
-
     // Private Constructor
     //to prevent initiation with outer code.
     private function __construct()
@@ -44,6 +32,15 @@ class Database
         throw new Exception("Can't clone a singleton");
     }
 
+    //Get an instance of the Database
+    public static function getInstance()
+    {
+        if (self::$instance == null) { // If no instance then make one
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+
     // Get mysqli connection
     public function getConnection()
     {
@@ -60,7 +57,6 @@ class Database
             return $refs;
         }
         return $arr;
-
     }
 
     public function queryParams($query, $params = null)
@@ -69,9 +65,9 @@ class Database
         $statement = $connection->prepare($query);
 
         if ($params != null) {
-//            $types = $types ?: str_repeat('s', count($params));
+//   od 5.6?   $types = $types ?: str_repeat('s', count($params));
 //            $statement->bind_param($types, ...$params);
-//        }
+
             $params = array_merge(array(str_repeat('s', count($params))), $params);
             //var_dump($params);
 
@@ -79,15 +75,13 @@ class Database
         }
 
         if ($statement->execute()) {
-
             $result = $statement->get_result();
+            //var_dump($result);
+            $statement->close();
 
             if ($result == false) {
                 return true;
             }
-            //var_dump($result);
-
-            $statement->close();
             return $result;
         }
         return false;

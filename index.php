@@ -23,9 +23,8 @@ if (isset($_GET['id'])) {
 
 echo("<h2>" . ucfirst($user->getName()) . "</h2>");
 echo("<a href='profile.php?id=$userId'>Show profile</a><br><hr>");
-//var_dump($user);
+
 $posts = $user->loadAllUserPosts();
-//var_dump($posts);
 
 foreach($posts as $post) {
     $postId = $post->getId();

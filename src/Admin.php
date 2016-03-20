@@ -2,14 +2,22 @@
 
 class Admin
 {
-    static private $connection = null;
+    private $id;
+    private $email;
+    private static $connection = null;
 
-    static public function SetConnection(mysqli $connection)
+    public function __construct($id, $email)
+    {
+        $this->id = intval($id);
+        $this->email = $email;
+    }
+
+    public static function SetConnection(mysqli $connection)
     {
         Admin::$connection = $connection;
     }
 
-    static public function RegisterAdmin($email, $password1, $password2)
+    public static function RegisterAdmin($email, $password1, $password2)
     {
         if ($password1 !== $password2) {
             return false;
@@ -33,7 +41,7 @@ class Admin
         return false;
     }
 
-    static public function LogInAdmin($email, $password)
+    public static function LogInAdmin($email, $password)
     {
         $stmt = self::$connection->prepare('SELECT * FROM Admins WHERE email LIKE ?');
         $stmt->bind_param('s', $email);
@@ -54,15 +62,6 @@ class Admin
             }
         }
         return false;
-    }
-
-    private $id;
-    private $email;
-
-    public function __construct($id, $email)
-    {
-        $this->id = intval($id);
-        $this->email = $email;
     }
 
     public function getEmail()

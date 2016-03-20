@@ -2,10 +2,6 @@
 
 require_once("src/connections.php");
 
-
-if (!isset($_SESSION['userId']) && !isset($_SESSION['adminId'])) {
-    header("Location: login.php");
-}
 require_once ("src/nav.php");
 
 echo("<div class='container'>");

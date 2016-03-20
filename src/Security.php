@@ -2,7 +2,7 @@
 
 class Security
 {
-    static public function SanitizeString($var)
+    public static function SanitizeString($var)
     {
         $var = stripslashes($var);
         $var = strip_tags($var);
@@ -10,7 +10,7 @@ class Security
         return $var;
     }
 
-    static public function IsValid($var)
+    public static function IsValid($var)
     {
         if(strlen(trim($var)) > 1)
         {

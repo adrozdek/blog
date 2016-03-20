@@ -5,7 +5,20 @@ require_once('Database.php');
 
 class User
 {
-    static public function RegisterUser($name, $email, $password1, $password2, $description)
+    private $id;
+    private $name;
+    private $email;
+    private $description;
+
+    public function __construct($id, $name, $email, $description)
+    {
+        $this->id = intval($id);
+        $this->email = $email;
+        $this->name = $name;
+        $this->setDescription($description);
+    }
+
+    public static function RegisterUser($name, $email, $password1, $password2, $description)
     {
         if ($password1 !== $password2) {
             return false;
@@ -18,41 +31,39 @@ class User
         $hashedPassword = password_hash($password1, PASSWORD_BCRYPT, $options);
 
         $db = Database::getInstance();
-        $params =  [$name, $email, $hashedPassword, $description];
+        $params = [$name, $email, $hashedPassword, $description];
         $result = $db->queryParams('INSERT INTO Users(name, email, password, description) VALUES (?,?,?,?)', $params);
 
         if ($result != false) {
-            $user = new User(1, $name, $email, $description);
+            $lastId = $db->getConnection()->insert_id;
+            $user = new User($lastId, $name, $email, $description);
             return $user;
+
         }
 
         return false;
     }
 
-    static public function LogInUser($email, $password)
+    public static function LogInUser($email, $password)
     {
-        $stmt = self::$connection->prepare('SELECT * FROM Users WHERE email LIKE ?');
-        $stmt->bind_param('s', $email);
+        $db = Database::getInstance();
 
-        if ($stmt->execute() != false) {
-            $result = $stmt->get_result();
+        $result = $db->queryParams('SELECT * FROM Users WHERE email LIKE ?', [$email]);
 
+        if ($result != false) {
             if ($result->num_rows == 1) {
                 $row = $result->fetch_assoc();
                 $isPasswordOK = password_verify($password, $row['password']);
-
                 if ($isPasswordOK == true) {
                     $user = new User($row['id'], $row['name'], $row['email'], $row['description']);
-                    $stmt->close();
                     return $user;
                 }
-                $stmt->close();
             }
         }
         return false;
     }
 
-    static public function GetUserById($id)
+    public static function GetUserById($id)
     {
         $db = Database::getInstance();
         $result = $db->queryParams('SELECT * FROM Users WHERE id = ?', [$id]);
@@ -67,7 +78,7 @@ class User
         return false;
     }
 
-    static public function GetAllUsers()
+    public static function GetAllUsers()
     {
         $users = [];
         $db = Database::getInstance();
@@ -81,19 +92,6 @@ class User
 
         }
         return $users;
-    }
-
-    private $id;
-    private $name;
-    private $email;
-    private $description;
-
-    public function __construct($id, $name, $email, $description)
-    {
-        $this->id = intval($id);
-        $this->email = $email;
-        $this->name = $name;
-        $this->setDescription($description);
     }
 
     public function getId()
@@ -139,11 +137,12 @@ class User
 
     public function loadAllUserPosts()
     {
-        $posts = [];
-        $sql = "SELECT * FROM Posts WHERE user_id = $this->id ORDER BY post_date DESC";
-        $result = self::$connection->query($sql);
 
-        if ($result == true && $result->num_rows > 0) {
+        $posts = [];
+        $db = Database::getInstance();
+        $result = $db->queryParams("SELECT * FROM Posts WHERE user_id = $this->id ORDER BY post_date DESC");
+
+        if ($result != false && $result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 $post = new Post($row['id'], $row['user_id'], $row['title'], $row['post_text'], $row['post_date']);
                 $posts[] = $post;
@@ -153,6 +152,8 @@ class User
         return $posts;
 
     }
+
+
 
 
 }

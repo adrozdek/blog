@@ -2,15 +2,28 @@
 
 class Comment
 {
+    private $id;
+    private $postId;
+    private $userId;
+    private $commentText;
+    private $commentDate;
+    private static $connection = null;
 
-    static private $connection = null;
+    public function __construct($id, $postId, $userId, $commentText, $commentDate)
+    {
+        $this->setCommentText($commentText);
+        $this->commentDate = $commentDate;
+        $this->id = intval($id);
+        $this->postId = $postId;
+        $this->userId = $userId;
+    }
 
-    static public function SetConnection(mysqli $connection)
+    public static function SetConnection(mysqli $connection)
     {
         Comment::$connection = $connection;
     }
 
-    static public function CreateComment($postId, $commentText)
+    public static function CreateComment($postId, $commentText)
     {
         $userId = $_SESSION['userId'];
         $commentDate = date('Y-m-d H:i:s T', time());
@@ -24,7 +37,7 @@ class Comment
         return false;
     }
 
-    static public function LoadCommentById($id)
+    public static function LoadCommentById($id)
     {
         $sql = "SELECT * FROM Comments WHERE id = $id";
         $result = self::$connection->query($sql);
@@ -36,21 +49,6 @@ class Comment
         }
 
         return FALSE;
-    }
-
-    private $id;
-    private $postId;
-    private $userId;
-    private $commentText;
-    private $commentDate;
-
-    public function __construct($id, $postId, $userId, $commentText, $commentDate)
-    {
-        $this->setCommentText($commentText);
-        $this->commentDate = $commentDate;
-        $this->id = intval($id);
-        $this->postId = $postId;
-        $this->userId = $userId;
     }
 
     public function getCommentDate()

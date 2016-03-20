@@ -4,14 +4,28 @@ require_once('Security.php');
 
 class Post
 {
-    static private $connection = null;
+    private $id;
+    private $userId;
+    private $title;
+    private $postText;
+    private $postDate;
+    private static $connection = null;
 
-    static public function SetConnection(mysqli $connection)
+    public function __construct($id, $userId, $title, $postText, $postDate)
+    {
+        $this->id = intval($id);
+        $this->userId = intval($userId);
+        $this->setTitle($title);
+        $this->setPostText($postText);
+        $this->postDate = $postDate;
+    }
+
+    public static function SetConnection(mysqli $connection)
     {
         Post::$connection = $connection;
     }
 
-    static public function CreatePost($title, $postText)
+    public static function CreatePost($title, $postText)
     {
         $userId = $_SESSION['userId'];
 
@@ -27,7 +41,7 @@ class Post
         return false;
     }
 
-    static public function LoadPostById($id)
+    public static function LoadPostById($id)
     {
         $statement = self::$connection->prepare('SELECT * FROM Posts where id = ?');
         $statement->bind_param('i', intval($id));
@@ -45,7 +59,7 @@ class Post
         return false;
     }
 
-    static public function SearchPosts($searchText)
+    public static function SearchPosts($searchText)
     {
         $search = '%' . $searchText . '%';
         $stmt = self::$connection->prepare('SELECT * FROM Posts WHERE title LIKE ?');
@@ -63,21 +77,6 @@ class Post
             $stmt->close();
         }
         return $posts;
-    }
-
-    private $id;
-    private $userId;
-    private $title;
-    private $postText;
-    private $postDate;
-
-    public function __construct($id, $userId, $title, $postText, $postDate)
-    {
-        $this->id = intval($id);
-        $this->userId = intval($userId);
-        $this->setTitle($title);
-        $this->setPostText($postText);
-        $this->postDate = $postDate;
     }
 
     public function setPostText($postText)
