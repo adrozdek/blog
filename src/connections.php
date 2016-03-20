@@ -18,7 +18,7 @@ if ($connection->connect_errno) {
     die("Db connection not initialized properly " . $connection->connect_error);
 }
 
-User::SetConnection($connection);
+
 Post::SetConnection($connection);
 Comment::SetConnection($connection);
 Admin::SetConnection($connection);

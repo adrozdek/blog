@@ -1,16 +1,10 @@
 <?php
 
 require_once('Security.php');
+require_once('Database.php');
 
 class User
 {
-    static private $connection = null;
-
-    static public function SetConnection(mysqli $connection)
-    {
-        User::$connection = $connection;
-    }
-
     static public function RegisterUser($name, $email, $password1, $password2, $description)
     {
         if ($password1 !== $password2) {
@@ -23,13 +17,12 @@ class User
         ];
         $hashedPassword = password_hash($password1, PASSWORD_BCRYPT, $options);
 
-        $stmt = self::$connection->prepare('INSERT INTO Users(name, email, password, description) VALUES (?,?,?,?)');
+        $db = Database::getInstance();
+        $params =  [$name, $email, $hashedPassword, $description];
+        $result = $db->queryParams('INSERT INTO Users(name, email, password, description) VALUES (?,?,?,?)', 'ssss', $params);
 
-        $stmt->bind_param('ssss', $name, $email, $hashedPassword, $description);
-
-        if ($stmt->execute()) {
-            $user = new User(self::$connection->insert_id, $name, $email, $description);
-            $stmt->close();
+        if ($result != false) {
+            $user = new User(1, $name, $email, $description);
             return $user;
         }
         return false;
@@ -60,26 +53,24 @@ class User
 
     static public function GetUserById($id)
     {
-        $stmt = self::$connection->prepare('SELECT * FROM Users WHERE id = ?');
-        $stmt->bind_param('i', $id);
+        $db = Database::getInstance();
+        $result = $db->queryParams('SELECT * FROM Users WHERE id = ?', $id, 'i');
 
-        if ($stmt->execute() != false) {
-            $result = $stmt->get_result();
-            if ($result->num_rows == 1) {
-                $row = $result->fetch_assoc();
-                $user = new User($row['id'], $row['name'], $row['email'], $row['description']);
-                $stmt->close();
-                return $user;
-            }
+        if ($result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+            $user = new User($row['id'], $row['name'], $row['email'], $row['description']);
+
+            return $user;
         }
+
         return false;
     }
 
     static public function GetAllUsers()
     {
         $users = [];
-        $sql = "SELECT * FROM Users ORDER BY name ASC";
-        $result = self::$connection->query($sql);
+        $db = Database::getInstance();
+        $result = $db->queryParams('SELECT * FROM Users ORDER BY name ASC');
 
         if ($result != false && $result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
@@ -151,8 +142,8 @@ class User
         $sql = "SELECT * FROM Posts WHERE user_id = $this->id ORDER BY post_date DESC";
         $result = self::$connection->query($sql);
 
-        if($result == true && $result->num_rows > 0) {
-            while($row = $result->fetch_assoc()) {
+        if ($result == true && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
                 $post = new Post($row['id'], $row['user_id'], $row['title'], $row['post_text'], $row['post_date']);
                 $posts[] = $post;
             }
@@ -161,7 +152,6 @@ class User
         return $posts;
 
     }
-
 
 
 }
