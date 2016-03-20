@@ -30,7 +30,6 @@ class Admin
         $hashedPassword = password_hash($password1, PASSWORD_BCRYPT, $options);
 
         $stmt = self::$connection->prepare('INSERT INTO Admins(email, password) VALUES (?,?)');
-
         $stmt->bind_param('ss', $email, $hashedPassword);
 
         if ($stmt->execute()) {
@@ -73,9 +72,6 @@ class Admin
     {
         return $this->id;
     }
-
-
-
 }
 
 

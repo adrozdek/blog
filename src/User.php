@@ -38,9 +38,7 @@ class User
             $lastId = $db->getConnection()->insert_id;
             $user = new User($lastId, $name, $email, $description);
             return $user;
-
         }
-
         return false;
     }
 
@@ -74,7 +72,6 @@ class User
 
             return $user;
         }
-
         return false;
     }
 
@@ -89,7 +86,6 @@ class User
                 $user = new User($row['id'], $row['name'], $row['email'], $row['description']);
                 $users[] = $user;
             }
-
         }
         return $users;
     }
@@ -137,7 +133,6 @@ class User
 
     public function loadAllUserPosts()
     {
-
         $posts = [];
         $db = Database::getInstance();
         $result = $db->queryParams("SELECT * FROM Posts WHERE user_id = $this->id ORDER BY post_date DESC");
@@ -147,13 +142,7 @@ class User
                 $post = new Post($row['id'], $row['user_id'], $row['title'], $row['post_text'], $row['post_date']);
                 $posts[] = $post;
             }
-
         }
         return $posts;
-
     }
-
-
-
-
 }

@@ -11,7 +11,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $description = Security::IsValid(Security::SanitizeString($_POST['description']));
 
     if ($name && $email && $password1 && $password2 && $description) {
-
         $user = User::RegisterUser($name, $email, $password1, $password2, $description);
 
         if ($user != false) {
@@ -26,5 +25,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 $form_action = 'register.php';
 require_once './Template/registrationUser_form.php';
 
-?>
 

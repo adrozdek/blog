@@ -12,7 +12,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($email && $password) {
         if ($user = User::LogInUser($email, $password)) {
-
             if ($user != false) {
                 $_SESSION['userId'] = $user->getId();
                 header("Location: index.php");
@@ -20,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo("Wrong email or password.");
             }
         } elseif ($admin = Admin::LogInAdmin($email, $password)) {
-            if($admin != false) {
+            if ($admin != false) {
                 $_SESSION['adminId'] = $admin->getId();
                 header('Location: bloggers.php');
             } else {
@@ -30,7 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo('Email or password are invalid');
         }
     }
-
 }
 
 require_once("src/nav.php");

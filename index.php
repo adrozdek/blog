@@ -3,19 +3,15 @@
 require_once("src/connections.php");
 require_once("src/nav.php");
 
-
 echo("<div class='container'>");
 
 if (isset($_GET['id'])) {
     $userId = $_GET['id'];
     $user = User::GetUserById($userId);
-
 } elseif (isset($_SESSION['userId'])) {
-
     $user = User::GetUserById($_SESSION['userId']);
     $userId = $user->getId();
     echo("<a href='newPost.php'>Dodaj nowy wpis</a>");
-
 } else {
     echo "Log in or choose blogger";
     return;
@@ -35,10 +31,7 @@ foreach($posts as $post) {
         echo("<a href='remove.php?idP=$postId'>Remove</a><br>");
     }
     echo('<br>' . $post->getPostDate() . '<br><hr>');
-
 }
 
 echo("</div>");
 
-
-?>

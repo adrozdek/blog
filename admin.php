@@ -1,10 +1,10 @@
 <?php
 
 require_once("src/connections.php");
-//
-//if (isset($_SESSION['adminId']) != true) {
-//    header("Location: login.php");
-//}
+
+if (isset($_SESSION['adminId']) != true) {
+    header("Location: login.php");
+}
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = Security::IsValid(Security::SanitizeString($_POST['email']));
@@ -12,7 +12,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password2 = Security::IsValid(Security::SanitizeString($_POST['password2']));
 
     if ($email && $password1 && $password2) {
-
         $admin = Admin::RegisterAdmin($email, $password1, $password2);
 
         if ($admin != false) {
@@ -25,7 +24,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 require_once("src/nav.php");
-
 ?>
 
 <h2>Registration admin</h2>

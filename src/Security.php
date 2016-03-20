@@ -12,8 +12,7 @@ class Security
 
     public static function IsValid($var)
     {
-        if(strlen(trim($var)) > 1)
-        {
+        if (strlen(trim($var)) > 1) {
             return $var;
         }
         return false;

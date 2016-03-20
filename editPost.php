@@ -7,12 +7,11 @@ if (isset($_SESSION['userId']) != true) {
     header("Location: login.php");
 }
 
-if (isset($_GET['id']) && is_numeric($_GET['id'])):
+if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $id = $_GET['id'];
     $postToEdit = Post::LoadPostById($id);
 
     if ($postToEdit->getUserId() == $_SESSION['userId'] || isset($_SESSION['adminId'])) {
-
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $post = $_POST['postText'];
             $title = $_POST['title'];
@@ -32,10 +31,6 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])):
         $postText = $postToEdit->getPostText();
         $headline = 'Edit post:';
 
-        require_once ('./Template/post_form.php');
-
-
+        require_once('./Template/post_form.php');
     }
-
-
-endif;
+}

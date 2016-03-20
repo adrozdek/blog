@@ -4,7 +4,6 @@ require_once("src/connections.php");
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $commentText = Security::IsValid(Security::SanitizeString($_POST['commentText']));
-
     if ($commentText) {
         if (Comment::CreateComment($_GET['id'], $commentText)) {
             echo('Comment added.');
@@ -18,11 +17,8 @@ echo("<div class='container'>");
 require_once("src/nav.php");
 
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
-
     $id = $_GET['id'];
-
     $postToShow = Post::LoadPostById($id);
-
     $userId = (int)($postToShow->getUserId());
     $user = User::GetUserById($userId);
 
@@ -37,10 +33,8 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     }
 
     $headline = 'Add comment:';
-    $form_action = 'showPost.php?id='. $id;
+    $form_action = 'showPost.php?id=' . $id;
     require_once './Template/comment_form.php';
-
-
 
     echo("<h3>Comments: </h3>");
     $comments = $postToShow->getAllComments();
@@ -59,12 +53,9 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
         }
         echo("<hr>");
     }
-
 } else {
     echo('Post doesn\'t exist');
 }
+
 echo("</div>");
-
-
-?>
 

@@ -28,7 +28,6 @@ class Post
     public static function CreatePost($title, $postText)
     {
         $userId = $_SESSION['userId'];
-
         $postDate = date('Y-m-d H:i:s', time());
 
         $statement = self::$connection->prepare('INSERT INTO Posts(user_id, title, post_text, post_date) VALUES (?,?,?,?)');
@@ -54,7 +53,6 @@ class Post
             $post = new Post($row['id'], $row['user_id'], $row['title'], $row['post_text'], $row['post_date']);
             $statement->close();
             return $post;
-
         }
         return false;
     }
@@ -64,8 +62,8 @@ class Post
         $search = '%' . $searchText . '%';
         $stmt = self::$connection->prepare('SELECT * FROM Posts WHERE title LIKE ?');
         $stmt->bind_param('s', $search);
-        $posts = [];
 
+        $posts = [];
         if ($stmt->execute()) {
             $result = $stmt->get_result();
 
@@ -124,7 +122,6 @@ class Post
         $result = self::$connection->query($sql);
 
         if ($result != false && $result->num_rows > 0) {
-
             while ($row = $result->fetch_assoc()) {
                 $comment = new Comment($row['id'], $row['post_id'], $row['user_id'], $row['comment_text'], $row['comment_date']);
                 $comments[] = $comment;
@@ -159,7 +156,4 @@ class Post
             return false;
         }
     }
-
-
-
 }

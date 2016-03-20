@@ -1,6 +1,5 @@
-
 <h2>Login:</h2>
-<form action="<?=$form_action; ?>" method="post">
+<form action="<?= $form_action; ?>" method="post">
     <p>
         <label>
             Email:

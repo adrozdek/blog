@@ -1,7 +1,6 @@
 <h2>Registration</h2>
 
 <form action="<?= $form_action ?>" method="post">
-
     <p>
         <label>
             Email:

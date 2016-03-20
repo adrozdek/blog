@@ -47,8 +47,7 @@ class Comment
             $comment = new Comment($row['id'], $row['post_id'], $row['user_id'], $row['comment_text'], $row['comment_date']);
             return $comment;
         }
-
-        return FALSE;
+        return false;
     }
 
     public function getCommentDate()
@@ -105,7 +104,4 @@ class Comment
             return false;
         }
     }
-
-
-
 }

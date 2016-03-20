@@ -3,7 +3,6 @@
 /*
 * Mysql database class - only one connection allowed
 */
-
 class Database
 {
     private $connection;
@@ -85,6 +84,5 @@ class Database
             return $result;
         }
         return false;
-
     }
 }

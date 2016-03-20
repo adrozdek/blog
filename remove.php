@@ -8,9 +8,7 @@ if (!isset($_SESSION['userId']) && !isset($_SESSION['adminId'])) {
 }
 
 if (isset($_GET['idP']) && is_numeric($_GET['idP'])) {
-
     if ($postToRemove = Post::LoadPostById($_GET['idP'])) {
-
         if ($postToRemove->getUserId() == $_SESSION['userId'] || isset($_SESSION['adminId'])) {
             if ($postToRemove->removePost()) {
                 echo('Post removed');
@@ -23,10 +21,7 @@ if (isset($_GET['idP']) && is_numeric($_GET['idP'])) {
         echo('Access denied');
     }
 } elseif (isset($_GET['idC']) && is_numeric($_GET['idC'])) {
-
     if ($commentToRemove = Comment::LoadCommentById($_GET['idC'])) {
-        var_dump($commentToRemove);
-
         if ($commentToRemove->getUserId() == $_SESSION['userId'] || isset($_SESSION['adminId'])) {
             if ($commentToRemove->removeComment()) {
                 echo('Comment removed');

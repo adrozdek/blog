@@ -8,13 +8,11 @@ if (!isset($_SESSION['userId']) && !isset($_SESSION['adminId'])) {
 
 require_once("src/nav.php");
 
-
 if (isset($_GET['id']) && is_numeric($_GET['id'])):
     $id = $_GET['id'];
     $commentToEdit = Comment::LoadCommentById($id);
 
     if ($commentToEdit->getUserId() == $_SESSION['userId'] || isset($_SESSION['adminId'])) {
-
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $commentText = $_POST['commentText'];
             if (Security::SanitizeString($commentText) && Security::IsValid($commentText)) {
