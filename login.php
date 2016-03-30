@@ -3,7 +3,7 @@
 require_once("./src/connections.php");
 
 if (isset($_SESSION['userId'])) {
-    header("Location: index.php");
+    header("Location: default.php");
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -14,14 +14,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($user = User::LogInUser($email, $password)) {
             if ($user != false) {
                 $_SESSION['userId'] = $user->getId();
-                header("Location: index.php");
+                $url = Param::url(false);
+                header("Location: $url");
             } else {
                 echo("Wrong email or password.");
             }
         } elseif ($admin = Admin::LogInAdmin($email, $password)) {
             if ($admin != false) {
                 $_SESSION['adminId'] = $admin->getId();
-                header('Location: bloggers.php');
+                $url = Param::url(false, ['action' => 'bloggers']);
+                header("Location: $url");
             } else {
                 echo("Wrong email or password");
             }

@@ -27,8 +27,8 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     echo($postToShow->getPostDate() . "<br />");
     if (isset($_SESSION['userId'])) {
         if ($postToShow->getUserId() == $_SESSION['userId'] || isset($_SESSION['adminId'])) {
-            echo("<a href='editPost.php?id=$id'>Edit</a><br>");
-            echo("<a href='remove.php?idP=$id'>Remove</a><br>");
+            echo sprintf("<a href='%s'>Edit</a><br>", Param::url(false, ['action' => 'editPost', 'id' => $id]));
+            echo sprintf("<a href='%s'>Remove</a><br>", Param::url(false, ['action' => 'remove', 'idP' => $id]));
         }
     }
 
@@ -47,8 +47,8 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
         echo($comment->getCommentDate() . '<br>');
         if (isset($_SESSION['userId'])) {
             if ($userCommentId == $_SESSION['userId'] || isset($_SESSION['adminId'])) {
-                echo("<a href='editComment.php?id=$commentId'>Edytuj</a><br>");
-                echo("<a href='remove.php?idC=$commentId'>Usuń</a><br>");
+                echo sprintf("<a href='%s'>Edit</a><br>", Param::url(false, ['action' => 'editComment', 'id' => $commentId]));
+                echo sprintf("<a href='%s'>Remove</a><br>", Param::url(false, ['action' => 'remove', 'idC' => $commentId]));
             }
         }
         echo("<hr>");

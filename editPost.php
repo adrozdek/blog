@@ -4,8 +4,10 @@ require_once("src/connections.php");
 require_once("src/nav.php");
 
 if (isset($_SESSION['userId']) != true) {
-    header("Location: login.php");
+    $url = Param::url(false, ['action' => 'login']);
+    header("Location: $url");
 }
+var_dump($_GET);
 
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $id = $_GET['id'];
@@ -33,4 +35,6 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 
         require_once('./Template/post_form.php');
     }
+} else {
+    echo('afd');
 }

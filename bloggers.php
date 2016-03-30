@@ -9,6 +9,6 @@ $users = User::GetAllUsers();
 foreach ($users as $user) {
     $userId = $user->getId();
     echo('<h2>' . ucfirst($user->getName()) . '</h2>');
-    echo("<a href='index.php?id=$userId'>Show posts</a><br>");
-    echo("<a href='profile.php?id=$userId'>Show profile</a><br><hr>");
+    echo sprintf("<a href='%s'>Show posts</a><br>", Param::url(false, ['id' => $userId]));
+    echo sprintf("<a href='%s'>Show profile</a><br><hr>", Param::url(false, ['action' => 'profile', 'id' => $userId]));
 }

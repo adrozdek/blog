@@ -3,7 +3,8 @@
 require_once("src/connections.php");
 
 if (!isset($_SESSION['userId']) && !isset($_SESSION['adminId'])) {
-    header("Location: login.php");
+    $url = Param::url(false, ['action' => 'login']);
+    header("Location: $url");
 }
 
 require_once("src/nav.php");

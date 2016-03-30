@@ -12,9 +12,9 @@ if (isset($_GET['search'])) {
     foreach ($posts as $post) {
         $postId = $post->getId();
         echo("<h3>" . ucfirst($post->getTitle()) . '</h3>');
-        echo("<a href='showPost.php?id=$postId'>Show</a><br>");
+        echo sprintf("<a href='%s'>Show</a><br>", Param::url(false, ['action' => 'showPost', 'id' => $postId]));
         if ($post->getUserId() == $_SESSION['userId']) {
-            echo("<a href='remove.php?idP=$postId'>Remove</a><br>");
+            echo sprintf("<a href='%s'>Remove</a><br>", Param::url(false, ['action' => 'remove', 'idP' => $postId]));
         }
         echo('<br>' . $post->getPostDate() . '<br><hr>');
     }

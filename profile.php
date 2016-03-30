@@ -1,7 +1,7 @@
 <?php
 
 require_once("src/connections.php");
-require_once ("src/nav.php");
+require_once("src/nav.php");
 
 echo("<div class='container'>");
 
@@ -11,7 +11,7 @@ if (isset($_GET['id'])) {
 } elseif (isset($_SESSION['userId'])) {
     $user = User::GetUserById($_SESSION['userId']);
     $userId = $user->getId();
-    echo("<a href='newPost.php'>Dodaj nowy wpis</a>");
+    echo sprintf("<a href='%s'>Add new post</a>", Param::url(false, ['action' => 'newPost']));
 } else {
     echo "Log in or choose blogger";
     return;
@@ -20,6 +20,6 @@ if (isset($_GET['id'])) {
 echo("<h2>" . ucfirst($user->getName()) . "</h2>");
 echo("<h3> Number of posts: " . count($user->loadAllUserPosts()) . "</h3>");
 echo('Description: ' . $user->getDescription() . '<br>');
-echo("<a href='index.php?id=$userId'>Show posts</a>");
+echo sprintf("<a href='%s'>Show posts</a>", Param::url(false, ['id' => $userId]));
 
 echo("</div>");

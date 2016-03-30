@@ -10,6 +10,7 @@ require_once(dirname(__FILE__) . "/Post.php");
 require_once(dirname(__FILE__) . "/Comment.php");
 require_once(dirname(__FILE__) . "/Security.php");
 require_once(dirname(__FILE__) . "/Admin.php");
+require_once(dirname(__FILE__) . "/Application.php");
 
 
 $connection = new mysqli($dbHost, $dbUser, $dbPassword, $dbName);
