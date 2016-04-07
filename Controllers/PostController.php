@@ -1,13 +1,17 @@
 <?php
 
+namespace controller;
+
+use klas;
+
 class PostController
 {
     public function show($postId, $userSessionId, $adminId)
     {
         if (isset($postId) && is_numeric($postId)) {
-            $postToShow = Post::LoadPostById($postId);
+            $postToShow = \klas\Post::LoadPostById($postId);
             $userId = (int)($postToShow->getUserId());
-            $user = User::GetUserById($userId);
+            $user = \klas\User::GetUserById($userId);
 
             echo("<h1>" . ucfirst($user->getName()) . "</h1>");
             echo($postToShow->getPostText() . "<br />");
@@ -19,23 +23,23 @@ class PostController
                 }
             }
         } else {
-            throw new Exception('Post doesn\'t exist');
+            throw new \Exception('Post doesn\'t exist');
         }
     }
 
     public function remove($postId, $userId, $adminId)
     {
         if (isset($postId) && is_numeric($postId)) {
-            if ($postToRemove = Post::LoadPostById($postId)) {
+            if ($postToRemove = \klas\Post::LoadPostById($postId)) {
                 if ($postToRemove->getUserId() == $userId || isset($adminId)) {
                     if ($postToRemove->removePost()) {
                         echo('Post removed');
                         return;
                     } else {
-                        throw new Exception('Couldn\'t remove this post');
+                        throw new \Exception('Couldn\'t remove this post');
                     }
                 }
-                throw new Exception('Access denied');
+                throw new \Exception('Access denied');
             }
         }
     }
@@ -43,7 +47,7 @@ class PostController
     public function edit($postId, $userId, $adminId)
     {
         if (isset($postId) && is_numeric($postId)) {
-            $postToEdit = Post::LoadPostById($postId);
+            $postToEdit = \klas\Post::LoadPostById($postId);
 
             if ($postToEdit->getUserId() == $userId || isset($adminId)) {
                 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -53,10 +57,10 @@ class PostController
                         if ($postToEdit->updatePost($title, $post)) {
                             echo("Post updated:");
                         } else {
-                            throw new Exception("Couldn't update post");
+                            throw new \Exception("Couldn't update post");
                         }
                     } else {
-                        throw new Exception("New post is not valid. Please try again.");
+                        throw new \Exception("New post is not valid. Please try again.");
                     }
                 }
 
@@ -64,10 +68,10 @@ class PostController
                 $title = $postToEdit->getTitle();
                 $postText = $postToEdit->getPostText();
                 $headline = 'Edit post:';
-                require_once('../Template/post_form.php');
+                require_once('./Template/post_form.php');
             }
         } else {
-            throw new Exception('Access denied');
+            throw new \Exception('Access denied');
         }
     }
 }

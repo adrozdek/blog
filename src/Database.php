@@ -1,5 +1,7 @@
 <?php
 
+namespace klas;
+
 /*
 * Mysql database class - only one connection allowed
 */
@@ -16,7 +18,7 @@ class Database
     //to prevent initiation with outer code.
     private function __construct()
     {
-        $this->connection = new mysqli($this->host, $this->username, $this->password, $this->database);
+        $this->connection = new \mysqli($this->host, $this->username, $this->password, $this->database);
         mysqli_set_charset($this->connection, 'utf8');
 
         // Error handling
@@ -28,7 +30,7 @@ class Database
     // Magic method clone is empty to prevent duplication of connection
     private function __clone()
     {
-        throw new Exception("Can't clone a singleton");
+        throw new \Exception("Can't clone a singleton");
     }
 
     //Get an instance of the Database

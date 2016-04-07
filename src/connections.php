@@ -19,7 +19,7 @@ if ($connection->connect_errno) {
 }
 
 
-Post::SetConnection($connection);
+\Klas\Post::SetConnection($connection);
 Comment::SetConnection($connection);
 Admin::SetConnection($connection);
 

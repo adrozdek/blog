@@ -1,22 +1,23 @@
 <?php
 
+namespace klas;
+
 require_once 'Param.php';
-require_once './Controllers/PostController.php';
+//require_once './Controllers/PostController.php';
+
+use \controller\PostController;
+//use \klas\Param;
 
 class Application
 {
-    public function __construct()
-    {
-        //whatever - init all u need. nothing ? :P
-    }
-
     public static function start() {
-        $action = Param::getParam('action', false);
+        $param = new Param();
+        $action = $param::getParam('action', false);
         //var_dump($action);
 
         switch($action) {
             case "login":
-                $template = new Template('login.php');
+                $template = new \Template('login.php');
                 require_once ('./login.php');
                 break;
             case "logout":
@@ -36,9 +37,9 @@ class Application
                 break;
             case "editPost":
                 try {
-                    $x = new PostController();
-                    $x->edit($_GET['id'], $_SESSION['userId'], $_SESSION['adminId']);
-                } catch(Exception $e) {
+                    $postController = new PostController();
+                    $postController->edit($_GET['id'], $_SESSION['userId'], $_SESSION['adminId']);
+                } catch(\Exception $e) {
                     echo $e->getMessage();
                 }
                 break;
@@ -46,7 +47,7 @@ class Application
                 try {
                     $x = new PostController();
                     $x->show($_GET['id'], $_SESSION['userId'], $_SESSION['adminId']);
-                } catch(Exception $e) {
+                } catch(\Exception $e) {
                     echo $e->getMessage();
                 }
                 break;
@@ -57,7 +58,7 @@ class Application
                 try {
                     $x = new PostController();
                     $x->remove($_GET['id'], $_SESSION['userId'], $_SESSION['adminId']);
-                } catch(Exception $e) {
+                } catch(\Exception $e) {
                     echo $e->getMessage();
                 }
                 break;

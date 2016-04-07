@@ -1,6 +1,8 @@
 <?php
 
-require_once('Security.php');
+namespace klas;
+
+//require_once('Security.php');
 
 class Post
 {
@@ -20,7 +22,7 @@ class Post
         $this->postDate = $postDate;
     }
 
-    public static function SetConnection(mysqli $connection)
+    public static function SetConnection(\mysqli $connection)
     {
         Post::$connection = $connection;
     }
@@ -128,7 +130,6 @@ class Post
             }
         }
         return $comments;
-
     }
 
     public function removePost()

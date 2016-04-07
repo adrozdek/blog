@@ -1,6 +1,7 @@
 <?php
 
-require_once 'Security.php';
+namespace klas;
+//require_once 'Security.php';
 
 class Param
 {

@@ -1,7 +1,11 @@
 <?php
 
+namespace klas;
+
 require_once('Security.php');
 require_once('Database.php');
+
+use \klas\Database;
 
 class User
 {
