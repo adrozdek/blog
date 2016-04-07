@@ -15,6 +15,7 @@ class Application
 
         switch($action) {
             case "login":
+                $template = new Template('login.php');
                 require_once ('./login.php');
                 break;
             case "logout":
