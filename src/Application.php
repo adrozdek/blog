@@ -1,6 +1,7 @@
 <?php
 
 require_once 'Param.php';
+require_once './Controllers/PostController.php';
 
 class Application
 {
@@ -34,16 +35,31 @@ class Application
                 require_once ('./editComment.php');
                 break;
             case "editPost":
-                require_once './editPost.php';
+                try {
+                    $x = new PostController();
+                    $x->edit($_GET['id'], $_SESSION['userId'], $_SESSION['adminId']);
+                } catch(Exception $e) {
+                    echo $e->getMessage();
+                }
                 break;
             case "showPost":
-                require_once './showPost.php';
+                try {
+                    $x = new PostController();
+                    $x->show($_GET['id'], $_SESSION['userId'], $_SESSION['adminId']);
+                } catch(Exception $e) {
+                    echo $e->getMessage();
+                }
                 break;
             case "search":
                 require_once ('./search.php');
                 break;
-            case "remove":
-                require_once ('./remove.php');
+            case "removePost":
+                try {
+                    $x = new PostController();
+                    $x->remove($_GET['id'], $_SESSION['userId'], $_SESSION['adminId']);
+                } catch(Exception $e) {
+                    echo $e->getMessage();
+                }
                 break;
             case "profile":
                 require_once ('./profile.php');

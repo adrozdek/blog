@@ -12,7 +12,6 @@ require_once(dirname(__FILE__) . "/Security.php");
 require_once(dirname(__FILE__) . "/Admin.php");
 require_once(dirname(__FILE__) . "/Application.php");
 
-
 $connection = new mysqli($dbHost, $dbUser, $dbPassword, $dbName);
 
 if ($connection->connect_errno) {
