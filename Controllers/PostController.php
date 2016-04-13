@@ -27,10 +27,14 @@ class PostController
                 }
             }
 //            require_once dirname(__DIR__) . '/Views/Post/showPost.php';
-            $file = fopen(dirname(__DIR__) . '/Views/Post/showPost2.php', 'r');
-            $contents = fread($file, filesize(dirname(__DIR__) . '/Views/Post/showPost2.php'));
+//            $file = fopen(dirname(__DIR__) . '/Views/Post/showPost2.php', 'r');
+//            $contents = fread($file, filesize(dirname(__DIR__) . '/Views/Post/showPost2.php'));
+            $contents = file_get_contents(dirname(__DIR__) . '/Views/Post/showPost2.php');
+            var_dump($contents);
             $toReplace = ['{{ name }}' => $name, '{{ title }}' => $postTitle, '{{ postText }}' => $postText, '{{ postDate }}' => $postDate];
             $cont2 = str_replace(array_keys($toReplace), array_values($toReplace), $contents);
+            var_dump($contents);
+            var_dump($cont2);
             echo $cont2;
         } else {
             throw new \Exception('Post doesn\'t exist');
