@@ -1,27 +1,37 @@
 <?php
 
-namespace controller;
+namespace Controllers;
 
-use klas;
+use Models\User as User;
+use Models\Post as Post;
+use Checking\Security as Security;
+use Checking\Param as Param;
 
 class PostController
 {
     public function show($postId, $userSessionId, $adminId)
     {
         if (isset($postId) && is_numeric($postId)) {
-            $postToShow = \klas\Post::LoadPostById($postId);
+            $postToShow = Post::LoadPostById($postId);
             $userId = (int)($postToShow->getUserId());
-            $user = \klas\User::GetUserById($userId);
+            $user = User::GetUserById($userId);
 
-            echo("<h1>" . ucfirst($user->getName()) . "</h1>");
-            echo($postToShow->getPostText() . "<br />");
-            echo($postToShow->getPostDate() . "<br />");
+            $name =  ucfirst($user->getName());
+            $postTitle = $postToShow->getTitle();
+            $postText = $postToShow->getPostText();
+            $postDate = $postToShow->getPostDate();
             if (isset($_SESSION['userId'])) {
                 if ($userId == $userSessionId || isset($adminId)) {
-                    echo sprintf("<a href='%s'>Edit</a><br>", Param::url(false, ['action' => 'editPost', 'id' => $postId]));
-                    echo sprintf("<a href='%s'>Remove</a><br>", Param::url(false, ['action' => 'removePost', 'id' => $postId]));
+                    $editLink = sprintf("<a href='%s'>Edit</a><br>", Param::url(false, ['action' => 'editPost', 'id' => $postId]));
+                    $removeLink = sprintf("<a href='%s'>Remove</a><br>", Param::url(false, ['action' => 'removePost', 'id' => $postId]));
                 }
             }
+//            require_once dirname(__DIR__) . '/Views/Post/showPost.php';
+            $file = fopen(dirname(__DIR__) . '/Views/Post/showPost2.php', 'r');
+            $contents = fread($file, filesize(dirname(__DIR__) . '/Views/Post/showPost2.php'));
+            $toReplace = ['{{ name }}' => $name, '{{ title }}' => $postTitle, '{{ postText }}' => $postText, '{{ postDate }}' => $postDate];
+            $cont2 = str_replace(array_keys($toReplace), array_values($toReplace), $contents);
+            echo $cont2;
         } else {
             throw new \Exception('Post doesn\'t exist');
         }
@@ -30,7 +40,7 @@ class PostController
     public function remove($postId, $userId, $adminId)
     {
         if (isset($postId) && is_numeric($postId)) {
-            if ($postToRemove = \klas\Post::LoadPostById($postId)) {
+            if ($postToRemove = Post::LoadPostById($postId)) {
                 if ($postToRemove->getUserId() == $userId || isset($adminId)) {
                     if ($postToRemove->removePost()) {
                         echo('Post removed');
@@ -47,7 +57,7 @@ class PostController
     public function edit($postId, $userId, $adminId)
     {
         if (isset($postId) && is_numeric($postId)) {
-            $postToEdit = \klas\Post::LoadPostById($postId);
+            $postToEdit = Post::LoadPostById($postId);
 
             if ($postToEdit->getUserId() == $userId || isset($adminId)) {
                 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -55,7 +65,7 @@ class PostController
                     $title = $_POST['title'];
                     if (Security::SanitizeString($post) && Security::IsValid($post) && Security::SanitizeString($title) && Security::IsValid($title)) {
                         if ($postToEdit->updatePost($title, $post)) {
-                            echo("Post updated:");
+                            header("Location: ?action=showPost&id=$postId");
                         } else {
                             throw new \Exception("Couldn't update post");
                         }
@@ -64,11 +74,11 @@ class PostController
                     }
                 }
 
-                $form_action = 'editPost.php?id=' . $postId;
+                $form_action = "?action=editPost&id=$postId";
                 $title = $postToEdit->getTitle();
                 $postText = $postToEdit->getPostText();
                 $headline = 'Edit post:';
-                require_once('./Template/post_form.php');
+                require_once(dirname(__DIR__) . '/Template/post_form.php');
             }
         } else {
             throw new \Exception('Access denied');

@@ -1,6 +1,6 @@
 <?php
 
-namespace klas;
+namespace Models;
 
 //require_once('Security.php');
 
@@ -49,9 +49,7 @@ class Post
 
         if ($statement->execute() != false) {
             $result = $statement->get_result();
-            //var_dump($result);
             $row = $result->fetch_assoc();
-            var_dump($row);
             $post = new Post($row['id'], $row['user_id'], $row['title'], $row['post_text'], $row['post_date']);
             $statement->close();
             return $post;

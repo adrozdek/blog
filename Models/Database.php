@@ -1,6 +1,6 @@
 <?php
 
-namespace klas;
+namespace Models;
 
 /*
 * Mysql database class - only one connection allowed

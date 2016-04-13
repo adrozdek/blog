@@ -1,5 +1,7 @@
 <?php
 
+namespace Checking;
+
 class Security
 {
     public static function SanitizeString($var)

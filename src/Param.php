@@ -1,6 +1,6 @@
 <?php
 
-namespace klas;
+namespace Checking;
 //require_once 'Security.php';
 
 class Param
@@ -19,7 +19,7 @@ class Param
     {
         $url = $_GET;
         //var_dump($_GET);
-        $base = "index.php";
+        //$base = "index.php";
         if ($keep === false) {
             $url = array();
         }
@@ -32,6 +32,6 @@ class Param
             $res[] = $name . "=" . $value;
         }
         //var_dump($res);
-        return $base . '?' . implode("&", $res);
+        return  '?' . implode("&", $res);
     }
 }

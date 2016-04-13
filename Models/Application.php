@@ -1,11 +1,12 @@
 <?php
 
-namespace klas;
+namespace Models;
 
-require_once 'Param.php';
+require_once dirname(__DIR__) . '/src/Param.php';
 //require_once './Controllers/PostController.php';
 
-use \controller\PostController;
+use \Controllers\PostController as PostController;
+use Checking\Param as Param;
 //use \klas\Param;
 
 class Application

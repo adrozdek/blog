@@ -2,6 +2,10 @@
 
 require_once("./src/connections.php");
 
+use \Checking\Security as Security;
+use \Checking\Param as Param;
+use \Models\User as User;
+
 if (isset($_SESSION['userId'])) {
     header("Location: default.php");
 }

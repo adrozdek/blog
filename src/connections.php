@@ -5,12 +5,12 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 require_once(dirname(__FILE__) . "/config.php");
-require_once(dirname(__FILE__) . "/User.php");
-require_once(dirname(__FILE__) . "/Post.php");
-require_once(dirname(__FILE__) . "/Comment.php");
+require_once(dirname(__DIR__) . "/Models/User.php");
+require_once(dirname(__DIR__) . "/Models/Post.php");
+require_once(dirname(__DIR__) . "/Models/Comment.php");
 require_once(dirname(__FILE__) . "/Security.php");
-require_once(dirname(__FILE__) . "/Admin.php");
-require_once(dirname(__FILE__) . "/Application.php");
+require_once(dirname(__DIR__) . "/Models/Admin.php");
+require_once(dirname(__DIR__) . "/Models/Application.php");
 
 $connection = new mysqli($dbHost, $dbUser, $dbPassword, $dbName);
 
@@ -19,7 +19,7 @@ if ($connection->connect_errno) {
 }
 
 
-\Klas\Post::SetConnection($connection);
+\Models\Post::SetConnection($connection);
 Comment::SetConnection($connection);
 Admin::SetConnection($connection);
 

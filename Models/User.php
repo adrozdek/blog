@@ -1,11 +1,11 @@
 <?php
 
-namespace klas;
+namespace Models;
 
-require_once('Security.php');
+require_once(dirname(__DIR__) . '/src/Security.php');
 require_once('Database.php');
 
-use \klas\Database;
+use \Models\Database as Database;
 
 class User
 {
@@ -125,6 +125,7 @@ class User
     public function changeDescription($newDescription)
     {
         $this->setDescription($newDescription);
+        $this->view();
 
         $sql = "UPDATE Users SET description ='$this->description' WHERE id= $this->id";
         $result = self::$connection->query($sql);
