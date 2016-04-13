@@ -20,18 +20,25 @@ class PostController
             $postTitle = $postToShow->getTitle();
             $postText = $postToShow->getPostText();
             $postDate = $postToShow->getPostDate();
+            $editLink = '';
+            $removeLink = '';
             if (isset($_SESSION['userId'])) {
                 if ($userId == $userSessionId || isset($adminId)) {
                     $editLink = sprintf("<a href='%s'>Edit</a><br>", Param::url(false, ['action' => 'editPost', 'id' => $postId]));
                     $removeLink = sprintf("<a href='%s'>Remove</a><br>", Param::url(false, ['action' => 'removePost', 'id' => $postId]));
                 }
             }
+            // 1. opcja. Widok z użyciem php.
 //            require_once dirname(__DIR__) . '/Views/Post/showPost.php';
+
+            //2. opcja. fopen i fread, fclose
 //            $file = fopen(dirname(__DIR__) . '/Views/Post/showPost2.php', 'r');
 //            $contents = fread($file, filesize(dirname(__DIR__) . '/Views/Post/showPost2.php'));
+
+            //3. opcja file_get_contents
             $contents = file_get_contents(dirname(__DIR__) . '/Views/Post/showPost2.php');
             var_dump($contents);
-            $toReplace = ['{{ name }}' => $name, '{{ title }}' => $postTitle, '{{ postText }}' => $postText, '{{ postDate }}' => $postDate];
+            $toReplace = ['{{ name }}' => $name, '{{ title }}' => $postTitle, '{{ postText }}' => $postText, '{{ postDate }}' => $postDate, '{{ edit }}' => $editLink, '{{ remove }}' => $removeLink];
             $cont2 = str_replace(array_keys($toReplace), array_values($toReplace), $contents);
             var_dump($contents);
             var_dump($cont2);

@@ -4,3 +4,5 @@ Tytuł: {{ title }} <br>
 Treść: {{ postText }} <br>
 Data: {{ postDate }} <br>
 
+{{ edit }}
+{{ remove }}
