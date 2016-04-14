@@ -6,6 +6,7 @@ use Models\User as User;
 use Models\Post as Post;
 use Checking\Security as Security;
 use Checking\Param as Param;
+use Service\Template as Template;
 
 class PostController
 {
@@ -36,13 +37,10 @@ class PostController
 //            $contents = fread($file, filesize(dirname(__DIR__) . '/Views/Post/showPost2.php'));
 
             //3. opcja file_get_contents
-            $contents = file_get_contents(dirname(__DIR__) . '/Views/Post/showPost2.php');
-            var_dump($contents);
             $toReplace = ['{{ name }}' => $name, '{{ title }}' => $postTitle, '{{ postText }}' => $postText, '{{ postDate }}' => $postDate, '{{ edit }}' => $editLink, '{{ remove }}' => $removeLink];
-            $cont2 = str_replace(array_keys($toReplace), array_values($toReplace), $contents);
-            var_dump($contents);
-            var_dump($cont2);
-            echo $cont2;
+            $template = new Template(__DIR__ . '/../Service/Template.php', $toReplace);
+            
+            echo $template->render();
         } else {
             throw new \Exception('Post doesn\'t exist');
         }

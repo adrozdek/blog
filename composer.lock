@@ -1,0 +1,64 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "a1e054a865e935644afd69777a5e33ce",
+    "packages": [
+        {
+            "name": "baryshev/tree-route",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/baryshev/TreeRoute.git",
+                "reference": "21ad8958eb704eef692d19a7b90149745649a33d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/baryshev/TreeRoute/zipball/21ad8958eb704eef692d19a7b90149745649a33d",
+                "reference": "21ad8958eb704eef692d19a7b90149745649a33d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "codeception/codeception": "^2.1",
+                "codeception/specify": "^0.4.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "TreeRoute\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Vadim Baryshev",
+                    "email": "vadimbaryshev@gmail.com"
+                }
+            ],
+            "description": "Perfomance focused request router",
+            "keywords": [
+                "router",
+                "routing"
+            ],
+            "time": "2015-11-05 17:22:58"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "baryshev/tree-route": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

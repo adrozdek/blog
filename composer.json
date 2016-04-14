@@ -1,0 +1,20 @@
+{
+  "name": "agata/nauka",
+  "description": "description_text",
+  "minimum-stability": "dev",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "author's name",
+      "email": "email@example.com"
+    }
+  ],
+  "require": {
+    "baryshev/tree-route": "dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "Agata\\": "src/Agata"
+    }
+  }
+}
