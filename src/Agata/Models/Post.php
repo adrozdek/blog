@@ -1,8 +1,6 @@
 <?php
 
-namespace Models;
-
-require_once('Database.php');
+namespace Agata\Models;
 
 class Post
 {

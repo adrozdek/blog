@@ -7,6 +7,10 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'TreeRoute\\' => array($vendorDir . '/baryshev/tree-route/src'),
-    'Service\\' => array($baseDir . '/Service'),
-    'Agata\\' => array($baseDir . '/src/Agata'),
+    'Agata\\Views\\' => array($baseDir . '/src/Agata/Views'),
+    'Agata\\Services\\' => array($baseDir . '/src/Agata/Services'),
+    'Agata\\Repositories\\' => array($baseDir . '/src/Agata/Repositories'),
+    'Agata\\Models\\' => array($baseDir . '/src/Agata/Models'),
+    'Agata\\Core\\' => array($baseDir . '/src/Agata/Core'),
+    'Agata\\Controllers\\' => array($baseDir . '/src/Agata/Controllers'),
 );

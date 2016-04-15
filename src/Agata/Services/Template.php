@@ -1,10 +1,9 @@
 <?php
 
-namespace Service;
+namespace Agata\Services;
 
 class Template
 {
-
     private $pathToFile;
     private $data;
 

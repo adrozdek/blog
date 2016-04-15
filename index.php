@@ -1,8 +1,9 @@
 <?php
 
-require_once("src/connections.php");
-require_once 'Controllers/PostController.php';
+use Agata\Services\Application;
 
-$x = new \Models\Application();
-$x::start();
-//\klas\Application::start();
+require __DIR__ . '/vendor/autoload.php';
+
+$start = new Application();
+$start->start();
+

@@ -1,19 +1,20 @@
 <?php
 
-namespace Controllers;
+namespace Agata\Controllers;
 
-use Models\User as User;
-use Models\Post as Post;
-use Checking\Security as Security;
-use Service\Template;
+use Agata\Models\Post;
+use Agata\Models\User;
+use Agata\Repositories\PostRepository;
+use Agata\Services\Param;
 
 class PostController
 {
     public function show($postId, $userSessionId, $adminId)
     {
         if (isset($postId) && is_numeric($postId)) {
-            echo 'hgh';
-            $postToShow = Post::LoadPostById($postId);
+//            $postToShow = Post::LoadPostById($postId);
+            $repo = new PostRepository();
+            $postToShow = $repo->loadPostById($postId);
             $userId = (int)($postToShow->getUserId());
             $user = User::GetUserById($userId);
 
@@ -26,13 +27,12 @@ class PostController
             if (isset($_SESSION['userId'])) {
                 if ($userId == $userSessionId || isset($adminId)) {
                     /** @noinspection HtmlUnknownTarget */
-                    $editLink = sprintf("<a href='%s'>Edit</a><br>", \Param::url(false, ['action' => 'editPost', 'id' => $postId]));
+                    $editLink = sprintf("<a href='%s'>Edit</a><br>", Param::url(false, ['action' => 'editPost', 'id' => $postId]));
                     /** @noinspection HtmlUnknownTarget */
-                    $removeLink = sprintf("<a href='%s'>Remove</a><br>", \Param::url(false, ['action' => 'removePost', 'id' => $postId]));
+                    $removeLink = sprintf("<a href='%s'>Remove</a><br>", Param::url(false, ['action' => 'removePost', 'id' => $postId]));
                 }
             }
-            echo 'hgh';
-
+            
             $toReplace = [
                 '{{ name }}' => $name,
                 '{{ title }}' => $postTitle,

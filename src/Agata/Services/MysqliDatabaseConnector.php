@@ -1,11 +1,14 @@
 <?php
 
-namespace Models;
+namespace Agata\Services;
+
+
+use Agata\Core\IDbLoader;
 
 /*
 * Mysql database class - only one connection allowed
 */
-class DatabaseConnector
+class MysqliDatabaseConnector implements IDbLoader
 {
     private $connection;
     private static $instance = null; //The single instance
@@ -34,7 +37,7 @@ class DatabaseConnector
     }
 
     //Get an instance of the Database
-    public static function getInstance()
+    public static function loadDb()
     {
         if (self::$instance == null) { // If no instance then make one
             self::$instance = new self();

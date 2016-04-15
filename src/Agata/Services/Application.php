@@ -1,24 +1,17 @@
 <?php
 
-namespace Models;
+namespace Agata\Services;
 
-require_once __DIR__ . '/../src/Param.php';
-require __DIR__ . '/../vendor/autoload.php';
-
-//require_once './Controllers/PostController.php';
-
-use Controllers\PostController as PostController;
+use Agata\Controllers\PostController;
 use TreeRoute\Router;
-
-//use \klas\Param;
 
 class Application
 {
     /**
      *
      */
-    public static function start() {
-        $param = new \Param();
+    public function start() {
+        $param = new Param();
         $action = $param::getParam('action', false);
         //var_dump($action);
 

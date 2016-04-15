@@ -14,8 +14,12 @@
   },
   "autoload": {
     "psr-4": {
-      "\\": "src",
-      "Service\\": "Service"
+      "Agata\\Services\\": "src\\Agata\\Services",
+      "Agata\\Controllers\\": "src\\Agata\\Controllers",
+      "Agata\\Repositories\\": "src\\Agata\\Repositories",
+      "Agata\\Models\\": "src\\Agata\\Models",
+      "Agata\\Views\\": "src\\Agata\\Views",
+      "Agata\\Core\\": "src\\Agata\\Core"
     }
   }
 }

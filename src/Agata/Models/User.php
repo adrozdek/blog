@@ -1,11 +1,6 @@
 <?php
 
-namespace Models;
-
-require_once(dirname(__DIR__) . '/src/Security.php');
-require_once('Database.php');
-
-use \Models\DatabaseConnector as Database;
+namespace Agata\Models;
 
 class User
 {

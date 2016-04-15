@@ -1,6 +1,6 @@
 <?php
 
-namespace Checking;
+namespace Agata\Services;
 
 class Security
 {

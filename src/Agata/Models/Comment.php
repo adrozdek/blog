@@ -1,5 +1,7 @@
 <?php
 
+namespace Agata\Models;
+
 class Comment
 {
     private $id;
