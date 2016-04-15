@@ -1,6 +1,6 @@
 <?php
 
 $dbUser = "root";
-$dbPassword = "coderslab";
+$dbPassword = "";
 $dbHost = "localhost";
 $dbName = "blog";

@@ -5,13 +5,13 @@ namespace Models;
 /*
 * Mysql database class - only one connection allowed
 */
-class Database
+class DatabaseConnector
 {
     private $connection;
     private static $instance = null; //The single instance
     private $host = 'localhost';
     private $username = 'root';
-    private $password = 'coderslab';
+    private $password = '';
     private $database = 'blog';
 
     // Private Constructor

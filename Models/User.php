@@ -5,7 +5,7 @@ namespace Models;
 require_once(dirname(__DIR__) . '/src/Security.php');
 require_once('Database.php');
 
-use \Models\Database as Database;
+use \Models\DatabaseConnector as Database;
 
 class User
 {
@@ -34,7 +34,7 @@ class User
         ];
         $hashedPassword = password_hash($password1, PASSWORD_BCRYPT, $options);
 
-        $db = Database::getInstance();
+        $db = DatabaseConnector::getInstance();
         $params = [$name, $email, $hashedPassword, $description];
         $result = $db->queryParams('INSERT INTO Users(name, email, password, description) VALUES (?,?,?,?)', $params);
 
@@ -48,7 +48,7 @@ class User
 
     public static function LogInUser($email, $password)
     {
-        $db = Database::getInstance();
+        $db = DatabaseConnector::getInstance();
 
         $result = $db->queryParams('SELECT * FROM Users WHERE email LIKE ?', [$email]);
 
@@ -67,7 +67,7 @@ class User
 
     public static function GetUserById($id)
     {
-        $db = Database::getInstance();
+        $db = DatabaseConnector::getInstance();
         $result = $db->queryParams('SELECT * FROM Users WHERE id = ?', [$id]);
 
         if ($result != false && $result->num_rows == 1) {
@@ -82,7 +82,7 @@ class User
     public static function GetAllUsers()
     {
         $users = [];
-        $db = Database::getInstance();
+        $db = DatabaseConnector::getInstance();
         $result = $db->queryParams('SELECT * FROM Users ORDER BY name ASC');
 
         if ($result != false && $result->num_rows > 0) {
@@ -139,7 +139,7 @@ class User
     public function loadAllUserPosts()
     {
         $posts = [];
-        $db = Database::getInstance();
+        $db = DatabaseConnector::getInstance();
         $result = $db->queryParams("SELECT * FROM Posts WHERE user_id = $this->id ORDER BY post_date DESC");
 
         if ($result != false && $result->num_rows > 0) {

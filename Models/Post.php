@@ -2,7 +2,7 @@
 
 namespace Models;
 
-//require_once('Security.php');
+require_once('Database.php');
 
 class Post
 {
@@ -11,6 +11,9 @@ class Post
     private $title;
     private $postText;
     private $postDate;
+    /**
+     * @var \mysqli
+     */
     private static $connection = null;
 
     public function __construct($id, $userId, $title, $postText, $postDate)
@@ -47,7 +50,8 @@ class Post
         $statement = self::$connection->prepare('SELECT * FROM Posts where id = ?');
         $statement->bind_param('i', intval($id));
 
-        if ($statement->execute() != false) {
+        if ($statement->execute() !== false) {
+            //var_dump($statement);die;
             $result = $statement->get_result();
             $row = $result->fetch_assoc();
             $post = new Post($row['id'], $row['user_id'], $row['title'], $row['post_text'], $row['post_date']);

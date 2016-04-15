@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a1e054a865e935644afd69777a5e33ce",
+    "hash": "12f6ece5df9abb746987d1e54dc0d558",
     "packages": [
         {
             "name": "baryshev/tree-route",

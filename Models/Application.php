@@ -2,19 +2,27 @@
 
 namespace Models;
 
-require_once dirname(__DIR__) . '/src/Param.php';
+require_once __DIR__ . '/../src/Param.php';
+require __DIR__ . '/../vendor/autoload.php';
+
 //require_once './Controllers/PostController.php';
 
-use \Controllers\PostController as PostController;
-use Checking\Param as Param;
+use Controllers\PostController as PostController;
+use TreeRoute\Router;
+
 //use \klas\Param;
 
 class Application
 {
+    /**
+     *
+     */
     public static function start() {
-        $param = new Param();
+        $param = new \Param();
         $action = $param::getParam('action', false);
         //var_dump($action);
+
+        $router = new Router();
 
         switch($action) {
             case "login":
@@ -47,7 +55,7 @@ class Application
             case "showPost":
                 try {
                     $x = new PostController();
-                    $x->show($_GET['id'], $_SESSION['userId'], $_SESSION['adminId']);
+                    $x->show($_GET['id'], 0, 0);
                 } catch(\Exception $e) {
                     echo $e->getMessage();
                 }

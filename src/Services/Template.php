@@ -2,7 +2,6 @@
 
 namespace Service;
 
-
 class Template
 {
 

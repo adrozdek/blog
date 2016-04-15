@@ -1,6 +1,5 @@
 <?php
 
-namespace Checking;
 //require_once 'Security.php';
 
 class Param

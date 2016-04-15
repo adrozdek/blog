@@ -5,19 +5,19 @@ namespace Controllers;
 use Models\User as User;
 use Models\Post as Post;
 use Checking\Security as Security;
-use Checking\Param as Param;
-use Service\Template as Template;
+use Service\Template;
 
 class PostController
 {
     public function show($postId, $userSessionId, $adminId)
     {
         if (isset($postId) && is_numeric($postId)) {
+            echo 'hgh';
             $postToShow = Post::LoadPostById($postId);
             $userId = (int)($postToShow->getUserId());
             $user = User::GetUserById($userId);
 
-            $name =  ucfirst($user->getName());
+            $name = ucfirst($user->getName());
             $postTitle = $postToShow->getTitle();
             $postText = $postToShow->getPostText();
             $postDate = $postToShow->getPostDate();
@@ -25,21 +25,24 @@ class PostController
             $removeLink = '';
             if (isset($_SESSION['userId'])) {
                 if ($userId == $userSessionId || isset($adminId)) {
-                    $editLink = sprintf("<a href='%s'>Edit</a><br>", Param::url(false, ['action' => 'editPost', 'id' => $postId]));
-                    $removeLink = sprintf("<a href='%s'>Remove</a><br>", Param::url(false, ['action' => 'removePost', 'id' => $postId]));
+                    /** @noinspection HtmlUnknownTarget */
+                    $editLink = sprintf("<a href='%s'>Edit</a><br>", \Param::url(false, ['action' => 'editPost', 'id' => $postId]));
+                    /** @noinspection HtmlUnknownTarget */
+                    $removeLink = sprintf("<a href='%s'>Remove</a><br>", \Param::url(false, ['action' => 'removePost', 'id' => $postId]));
                 }
             }
-            // 1. opcja. Widok z użyciem php.
-//            require_once dirname(__DIR__) . '/Views/Post/showPost.php';
+            echo 'hgh';
 
-            //2. opcja. fopen i fread, fclose
-//            $file = fopen(dirname(__DIR__) . '/Views/Post/showPost2.php', 'r');
-//            $contents = fread($file, filesize(dirname(__DIR__) . '/Views/Post/showPost2.php'));
+            $toReplace = [
+                '{{ name }}' => $name,
+                '{{ title }}' => $postTitle,
+                '{{ postText }}' => $postText,
+                '{{ postDate }}' => $postDate,
+                '{{ edit }}' => $editLink,
+                '{{ remove }}' => $removeLink
+            ];
 
-            //3. opcja file_get_contents
-            $toReplace = ['{{ name }}' => $name, '{{ title }}' => $postTitle, '{{ postText }}' => $postText, '{{ postDate }}' => $postDate, '{{ edit }}' => $editLink, '{{ remove }}' => $removeLink];
-            $template = new Template(__DIR__ . '/../Service/Template.php', $toReplace);
-            
+            $template = new Template(__DIR__ . '/../Views/Post/showPost2.php', $toReplace);
             echo $template->render();
         } else {
             throw new \Exception('Post doesn\'t exist');
