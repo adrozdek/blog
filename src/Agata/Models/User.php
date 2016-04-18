@@ -2,6 +2,8 @@
 
 namespace Agata\Models;
 
+use Agata\Services\MysqliDatabaseConnector;
+
 class User
 {
     private $id;
@@ -62,7 +64,7 @@ class User
 
     public static function GetUserById($id)
     {
-        $db = DatabaseConnector::getInstance();
+        $db = MysqliDatabaseConnector::loadDb();
         $result = $db->queryParams('SELECT * FROM Users WHERE id = ?', [$id]);
 
         if ($result != false && $result->num_rows == 1) {

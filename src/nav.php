@@ -8,10 +8,3 @@
 
 <?php
 
-if (isset($_SESSION['userId'])) {
-    require_once './Template/navUser.php';
-} else {
-    require_once './Template/navStranger.php';
-}
-
-?>

@@ -3,6 +3,7 @@
 namespace Agata\Services;
 
 use Agata\Controllers\PostController;
+use Agata\Controllers\UserController;
 use TreeRoute\Router;
 
 class Application
@@ -10,38 +11,50 @@ class Application
     /**
      *
      */
-    public function start() {
+    public function start()
+    {
         $param = new Param();
         $action = $param::getParam('action', false);
-        //var_dump($action);
-
-        $router = new Router();
-
-        switch($action) {
+        
+        switch ($action) {
             case "login":
-                $template = new \Template('login.php');
-                require_once ('./login.php');
+                try {
+                    $userController = new UserController();
+                    $userController->login();
+                } catch (\Exception $e) {
+                    echo $e->getMessage();
+                }
                 break;
             case "logout":
-                require_once ('./logout.php');
+                try {
+                    $userController = new UserController();
+                    $userController->logout();
+                } catch (\Exception $e) {
+                    echo $e->getMessage();
+                }
                 break;
             case "bloggers":
-                require_once ('./bloggers.php');
+                require_once('./bloggers.php');
                 break;
             case "newPost":
-                require_once ('./newPost.php');
+                require_once('./newPost.php');
                 break;
             case "register":
-                require_once ('./register.php');
+                try {
+                    $userController = new UserController();
+                    $userController->register();
+                } catch (\Exception $e) {
+                    echo $e->getMessage();
+                }
                 break;
             case "editComment":
-                require_once ('./editComment.php');
+                require_once('./editComment.php');
                 break;
             case "editPost":
                 try {
                     $postController = new PostController();
                     $postController->edit($_GET['id'], $_SESSION['userId'], $_SESSION['adminId']);
-                } catch(\Exception $e) {
+                } catch (\Exception $e) {
                     echo $e->getMessage();
                 }
                 break;
@@ -49,26 +62,26 @@ class Application
                 try {
                     $x = new PostController();
                     $x->show($_GET['id'], 0, 0);
-                } catch(\Exception $e) {
+                } catch (\Exception $e) {
                     echo $e->getMessage();
                 }
                 break;
             case "search":
-                require_once ('./search.php');
+                require_once('./search.php');
                 break;
             case "removePost":
                 try {
                     $x = new PostController();
                     $x->remove($_GET['id'], $_SESSION['userId'], $_SESSION['adminId']);
-                } catch(\Exception $e) {
+                } catch (\Exception $e) {
                     echo $e->getMessage();
                 }
                 break;
             case "profile":
-                require_once ('./profile.php');
+                require_once('./profile.php');
                 break;
             default:
-                require_once ('./default.php');
+                require_once('./default.php');
                 break;
         }
     }

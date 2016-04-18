@@ -2,10 +2,6 @@
 
 require_once("./src/connections.php");
 
-use \Checking\Security as Security;
-use \Checking\Param as Param;
-use \Models\User as User;
-
 if (isset($_SESSION['userId'])) {
     header("Location: default.php");
 }
@@ -37,12 +33,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-require_once("src/nav.php");
-
 $form_action = 'login.php';
 $register = 'register.php';
 
-require_once './Template/login_form.php';
+require_once  __DIR__ . '/src/Agata/Views/User/login_form.php';
 
 
 

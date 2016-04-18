@@ -2,17 +2,18 @@
 
 namespace Agata\Controllers;
 
+use Agata\Core\Controller;
 use Agata\Models\Post;
 use Agata\Models\User;
 use Agata\Repositories\PostRepository;
 use Agata\Services\Param;
+use Agata\Services\Template;
 
-class PostController
+class PostController extends Controller
 {
     public function show($postId, $userSessionId, $adminId)
     {
         if (isset($postId) && is_numeric($postId)) {
-//            $postToShow = Post::LoadPostById($postId);
             $repo = new PostRepository();
             $postToShow = $repo->loadPostById($postId);
             $userId = (int)($postToShow->getUserId());
@@ -44,6 +45,7 @@ class PostController
 
             $template = new Template(__DIR__ . '/../Views/Post/showPost2.php', $toReplace);
             echo $template->render();
+            var_dump($template);
         } else {
             throw new \Exception('Post doesn\'t exist');
         }

@@ -37,6 +37,9 @@ class MysqliDatabaseConnector implements IDbLoader
     }
 
     //Get an instance of the Database
+    /**
+     * @return \mysqli
+     */
     public static function loadDb()
     {
         if (self::$instance == null) { // If no instance then make one

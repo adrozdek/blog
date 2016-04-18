@@ -1,5 +1,5 @@
 <h2>Login:</h2>
-<form action="<?= $form_action; ?>" method="post">
+<form action="{{ action }}" method="post">
     <p>
         <label>
             Email:
@@ -20,6 +20,6 @@
 
 <p>
     Don't have an account?
-    <a href='<?= $register; ?>' name='register'>Register now</a>
+    <a href="{{ register }}" name='register'>Register now</a>
 
 </p>
