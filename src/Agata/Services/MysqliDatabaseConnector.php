@@ -37,9 +37,6 @@ class MysqliDatabaseConnector implements IDbLoader
     }
 
     //Get an instance of the Database
-    /**
-     * @return \mysqli
-     */
     public static function loadDb()
     {
         if (self::$instance == null) { // If no instance then make one
@@ -49,6 +46,9 @@ class MysqliDatabaseConnector implements IDbLoader
     }
 
     // Get mysqli connection
+    /**
+     * @return \mysqli
+     */
     public function getConnection()
     {
         return $this->connection;
