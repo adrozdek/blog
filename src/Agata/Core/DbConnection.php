@@ -4,7 +4,7 @@ namespace Agata\Core;
 
 use Agata\Services\MysqliDatabaseConnector;
 
-class MysqliDbConnection
+class DbConnection
 {
      /**
       * @var \mysqli
@@ -13,9 +13,9 @@ class MysqliDbConnection
     
     public function __construct()
     {
-        $dbConnection = MysqliDatabaseConnector::loadDb();
-        $this->db = $dbConnection;
+        $dbInstance = MysqliDatabaseConnector::loadDb();
+        $this->db = $dbInstance;
 
-        return $this->db;
+        return $dbInstance;
     }
 }

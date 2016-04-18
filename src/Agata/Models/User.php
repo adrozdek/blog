@@ -31,7 +31,7 @@ class User
         ];
         $hashedPassword = password_hash($password1, PASSWORD_BCRYPT, $options);
 
-        $db = DatabaseConnector::getInstance();
+        $db = MysqliDatabaseConnector::getInstance();
         $params = [$name, $email, $hashedPassword, $description];
         $result = $db->queryParams('INSERT INTO Users(name, email, password, description) VALUES (?,?,?,?)', $params);
 
@@ -45,7 +45,7 @@ class User
 
     public static function LogInUser($email, $password)
     {
-        $db = DatabaseConnector::getInstance();
+        $db = MysqliDatabaseConnector::loadDb();
 
         $result = $db->queryParams('SELECT * FROM Users WHERE email LIKE ?', [$email]);
 

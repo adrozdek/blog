@@ -1,5 +1,7 @@
 <?php
 
+use Agata\Models\Post;
+
 require_once("src/connections.php");
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {

@@ -14,7 +14,7 @@ class MysqliDatabaseConnector implements IDbLoader
     private static $instance = null; //The single instance
     private $host = 'localhost';
     private $username = 'root';
-    private $password = '';
+    private $password = 'coderslab';
     private $database = 'blog';
 
     // Private Constructor

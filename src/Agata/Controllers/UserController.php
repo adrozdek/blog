@@ -15,7 +15,6 @@ class UserController extends Controller
     {
         if (!$this->checkIfUserSessionExist()) {
             $loginUrl = Param::url(false, ['action' => 'login']);
-            var_dump($loginUrl);
             $registerUrl = Param::url(false, ['action' => 'register']);
             $form_action = $loginUrl;
 
@@ -31,30 +30,19 @@ class UserController extends Controller
                 $password = $this->isValid($this->sanitizeString(($_POST['password'])));
 
                 if ($email && $password) {
-                    if ($user = User::LogInUser($email, $password)) {
-                        if ($user != false) {
-                            $_SESSION['userId'] = $user->getId();
-                            header("Location: $loginUrl");
-                        } else {
-                            echo("Wrong email or password.");
-                        }
-                    } elseif ($admin = Admin::LogInAdmin($email, $password)) {
-                        if ($admin != false) {
-                            $_SESSION['adminId'] = $admin->getId();
-                            $url = Param::url(false, ['action' => 'bloggers']);
-                            header("Location: $url");
-                        } else {
-                            echo("Wrong email or password");
-                        }
-                    } else {
-                        echo('Email or password are invalid');
+                    $user = User::LogInUser($email, $password);
+                    if ($user != false ) {
+                        $_SESSION['userId'] = $user->getId();
+                        header("Location: $loginUrl"); //@TODO zmienić przeniesienie
+                    }else {
+                        echo("Wrong email or password.");
                     }
                 }
-
             }
         } else {
-            $defaultUrl = Param::url(false, ['action' => 'default']);
-            header("Location: $defaultUrl");
+//            $defaultUrl = Param::url(false, ['action' => 'default']);
+//            header("Location: $defaultUrl");
+            echo 'sesja istenije'; //@TODO zmienić przeniesienie
         }
     }
 
